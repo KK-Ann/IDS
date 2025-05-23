@@ -174,8 +174,8 @@ class TrafficDetector:
 # 用于测试
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
-    detector = TrafficDetector()
-    detector.start_capture()
+    detector = TrafficDetector()# 初始化
+    detector.start_capture()# 开始捕获
     
     try:
         # 持续运行10秒
