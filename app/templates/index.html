@@ -12,7 +12,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
             <a class="navbar-brand" href="/">
-                <i class="fa fa-shield"></i> 网络入侵检测与防御系统
+                <i class="fa fa-shield"></i> 网络入侵检测系统
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="切换导航">
                 <span class="navbar-toggler-icon"></span>
@@ -22,9 +22,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/">主页</a>
                     </li>
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a class="nav-link" href="/dashboard">仪表盘</a>
-                    </li>
+                    </li> -->
                     <li class="nav-item">
                         <a class="nav-link" href="/logs">日志</a>
                     </li>
@@ -40,8 +40,8 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-8 offset-md-2 text-center">
-                    <h1 class="display-4">网络入侵检测与防御系统</h1>
-                    <p class="lead">实时监控、检测和防御网络攻击</p>
+                    <h1 class="display-4">网络入侵检测系统</h1>
+                    <p class="lead">实时监控、检测网络攻击</p>
                     <div class="mt-4">
                         <button id="startBtn" class="btn btn-success btn-lg me-2">
                             <i class="fa fa-play"></i> 启动系统
@@ -54,38 +54,7 @@
             </div>
         </div>
     </div>
-
     <div class="container mt-5">
-        <div class="row">
-            <div class="col-md-4">
-                <div class="card mb-4">
-                    <div class="card-body text-center">
-                        <i class="fa fa-exchange fa-4x text-primary mb-3"></i>
-                        <h3>流量检测</h3>
-                        <p>实时捕获和分析网络流量，识别可疑活动和异常行为。</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card mb-4">
-                    <div class="card-body text-center">
-                        <i class="fa fa-shield fa-4x text-success mb-3"></i>
-                        <h3>入侵防御</h3>
-                        <p>检测并拦截恶意流量，保护网络免受攻击和未授权访问。</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card mb-4">
-                    <div class="card-body text-center">
-                        <i class="fa fa-bell fa-4x text-danger mb-3"></i>
-                        <h3>告警响应</h3>
-                        <p>针对检测到的威胁生成警报，并执行自动响应措施。</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <div class="row">
             <div class="col-md-6">
                 <div class="card mb-4">
@@ -93,6 +62,7 @@
                         <i class="fa fa-line-chart fa-4x text-info mb-3"></i>
                         <h3>网络监控</h3>
                         <p>可视化网络状态与攻击统计，为安全分析提供实时数据。</p>
+                        <a href="/network_monitor" class="btn btn-primary mt-3">查看详情</a>
                     </div>
                 </div>
             </div>
@@ -100,13 +70,15 @@
                 <div class="card mb-4">
                     <div class="card-body text-center">
                         <i class="fa fa-search fa-4x text-warning mb-3"></i>
-                        <h3>攻击溯源</h3>
+                        <h3>入侵检测</h3>
                         <p>收集和分析攻击数据，帮助识别攻击源和攻击方法。</p>
+                        <a href="/intrusion_detection" class="btn btn-primary mt-3">查看详情</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    
 
     <div class="container mt-5">
         <div class="row">
@@ -152,7 +124,7 @@
 
     <footer class="footer mt-5 py-3 bg-dark text-white">
         <div class="container text-center">
-            <p>&copy; 2025 网络入侵检测与防御系统 | 版本 Peng_Test</p>
+            <p>&copy; 2025 网络入侵检测系统 | by kja</p>
         </div>
     </footer>
 
@@ -254,7 +226,7 @@
             // WebSocket事件处理
             socket.on('connect', function() {
                 console.log('Connected to server');
-            });
+            });//监听事件conenct，调用function()函数,app.py中socketio.emit('connect', {'data': 'Connected'})
             
             socket.on('disconnect', function() {
                 console.log('Disconnected from server');

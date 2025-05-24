@@ -228,6 +228,7 @@ $(document).ready(function() {
     function fetchData() {
         // 获取系统状态
         $.get('/api/status', function(data) {
+            console.log("获取系统状态");
             updateSystemStatus(true, data.is_running);
         });
         
