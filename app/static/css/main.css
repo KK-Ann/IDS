@@ -235,3 +235,63 @@ body {
 ::-webkit-scrollbar-thumb:hover {
     background: #a8a8a8;
 }
+
+/* 高亮选中行 */
+#packetTable tr.table-active {
+    background-color: rgba(13, 110, 253, 0.15) !important;
+}
+
+/* 添加手形光标表明可点击 */
+#packetTable tbody tr {
+    cursor: pointer;
+}
+
+/* 滚动内容区域 */
+[style*="overflow-y: scroll"] {
+    scrollbar-width: thin;
+    scrollbar-color: #ddd transparent;
+}
+
+/* 保持pre元素内容格式 */
+pre {
+    white-space: pre-wrap;
+    word-break: break-all;
+    background-color: #f8f9fa;
+    padding: 8px;
+    border-radius: 4px;
+}
+.sticky-header {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+
+.table-responsive {
+  height: 300px;       /* 容器固定高度 */
+  overflow-y: auto;    /* 允许垂直滚动 */
+  border: 1px solid #ddd;
+}
+
+table {
+  width: 90%;
+  border-collapse: collapse;
+}
+
+thead {
+  position: sticky;   /* 关键属性 */
+  top: 0;             /* 距离顶部0时固定 */
+  background: #f8f9fa; /* 背景色防止内容穿透 */
+  padding: 12px;
+  text-align: left;
+  border-bottom: 2px solid #dee2e6;
+  z-index: 1;         /* 确保表头在内容之上 */
+}
+
+tbody {
+  padding: 12px;
+  border-bottom: 1px solid #dee2e6;
+  background: white;  /* 内容行背景色 */
+}

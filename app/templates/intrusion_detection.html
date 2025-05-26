@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -28,9 +29,6 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/logs">日志</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="/settings">设置</a>
-                    </li>
                 </ul>
             </div>
         </div>
@@ -41,10 +39,22 @@
                 <div class="alert alert-info" role="alert">
                     <i class="fa fa-info-circle"></i> 仪表盘数据每秒自动更新。系统状态：<span id="systemStatusBadge" class="badge bg-danger">未运行</span>
                 </div>
-            </div>
+            </div>            
         </div>
         <div class="row mb-4">
-            <div class="col-md-4">
+            <div class="col-md-12">
+                <div class="input-group">
+                    <input type="text" class="form-control" id="filePath" placeholder="输入PCAP文件或CSV文件的绝对路径">
+                        <button id="analyze_file" class="btn btn-primary" >
+                        <i class="fa fa-upload"></i> 分析文件
+                    </button>
+                </div>
+            <div class="form-text text-muted mt-2">支持格式：.pcap 网络抓包文件 / .csv 流量特征文件</div>
+                <div id="fileError" class="alert alert-danger mt-2" style="display: none;"></div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-3">
                 <div class="card dashboard-card">
                     <div class="card-body">
                         <div class="d-flex align-items-center">
@@ -59,7 +69,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <div class="card dashboard-card">
                     <div class="card-body">
                         <div class="d-flex align-items-center">
@@ -74,7 +84,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <div class="card dashboard-card">
                     <div class="card-body">
                         <div class="d-flex align-items-center">
@@ -89,17 +99,71 @@
                     </div>
                 </div>
             </div>
+            <div class="col-md-3">
+                <div class="card dashboard-card">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="icon-box bg-info">
+                                <i class="fa fa-shield"></i>
+                            </div>
+                            <div class="ms-3">
+                                <h6 class="text-muted">威胁检测</h6>
+                                <button id="detectThreats" class="btn btn-info btn-sm">
+                                    <i class="fa fa-search"></i> 开始检测
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover" id="flowfeature">
+                                <thead>
+                                    <tr>
+                                        <th>源IP</th>
+                                        <th>目标IP</th>
+                                        <th>源端口</th>
+                                        <th>目标端口</th>
+                                        <th>协议</th>
+                                        <th>正向包/秒</th>
+                                        <th>反向包/秒</th>
+                                        <th>正向负载字节</th>
+                                        <th>反向负载字节</th>
+                                        <th>持续时间(ms)</th>
+                                        <th>FIN</th>
+                                        <th>SYN</th>
+                                        <th>RST</th>
+                                        <th>ACK</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td colspan="7" class="text-center text-muted">
+                                            <i class="fa fa-spin fa-spinner"></i> 加载流量数据...
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="row mb-4">
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-header">
-                        <h5 class="mb-0">最近检测到的威胁</h5>
+                        <h5 class="mb-0">检测结果</h5>
                     </div>
                     <div class="card-body threat-list-container">
                         <div id="threatList" class="threat-list">
                             <div class="text-center text-muted">
-                                <i class="fa fa-spin fa-spinner"></i> 加载威胁数据...
+                                <i class="fa fa-spin fa-spinner"></i> 加载数据...
                             </div>
                         </div>
                     </div>
@@ -108,7 +172,7 @@
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-header">
-                        <h5 class="mb-0">攻击类型统计</h5>
+                        <h5 class="mb-0">类型统计</h5>
                     </div>
                     <div class="card-body">
                         <canvas id="attackTypeChart" height="250"></canvas>
@@ -120,7 +184,7 @@
 
     <footer class="footer mt-5 py-3 bg-dark text-white">
         <div class="container text-center">
-            <p>&copy; 2025 网络入侵检测系统 | by kja</p>
+            <p>&copy; 2025 网络入侵检测系统 </p>
         </div>
     </footer>
 
@@ -146,21 +210,86 @@
             
             // 威胁数据
             let threatList = [];
-            
+            let is_analyze=false;
+            let is_run=false;
             // 时间范围（默认10分钟）
             let timeRange = 10;
             // 获取初始数据
             fetchInitialData();
             // 初始化图表
             initCharts();
-            
+            // 设置按钮事件
+                //setupButtonEvents();
             // SocketIO事件处理
             setupSocketEvents();
             
-            
-            
-            // 设置按钮事件
-            setupButtonEvents();
+              // 设置按钮事件
+            // 分析文件
+            $('#analyze_file').click(function() {
+                const filePath = $('#filePath').val().trim();
+                const fileError = $('#fileError');
+                console.log("分析文件")
+                console.log(filePath);
+                fileError.hide();
+                if(is_run){
+
+                    showError('系统正在运行，无法分析文件');
+                    return;
+                }
+                if (!filePath) {
+                    showError('请输入文件路径');
+                    return;
+                }
+                var postData = {
+                    file_path: filePath
+                };
+                $.post('/api/analyze_file', postData,function(response) {
+                    console.log(response)
+                    if (response.success) {
+                        updateFlowFeatures(response.data);
+                        is_analyze=true;
+                    } else {
+                        showError('文件分析失败: ' + response.message);
+                        is_analyze=false;
+                    }
+                });
+                function showError(message) {
+                    is_analyze=false;
+                    fileError.text(message).fadeIn();
+                    setTimeout(() => fileError.fadeOut(), 3000);
+                }
+            });
+            // 调用模型进行威胁检测
+            $('#detectThreats').click(function() {
+                const button = $(this);
+                const icon = button.find('i');
+                
+                if (is_analyze) {
+                    // Start detection
+                    button.removeClass('btn-info').addClass('btn-danger');
+                    button.html('<i class="fa fa-stop"></i> 重新检测');
+                    
+                    // Call API to start detection
+                    $.get('/api/start_threatdetection', function(response) {
+                        if (!response.success) {
+                            alert('启动检测失败: ' + response.message);
+                            button.removeClass('btn-danger').addClass('btn-info');
+                            button.html('<i class="fa fa-search"></i> 开始检测');
+                        }
+                        else{
+                            console.log("威胁检测完")
+                            console.log(response.data)
+                            if (response.data) {
+                                updateThreatList(response.data.threats);
+                                updateAttackChart({ attack_stats: countAttackTypes(response.data.threats) });
+                            }
+                        }
+                    });
+                } else {
+                    alert('请先分析文件' );
+                }
+            });
+
             
             // 初始化图表
             function initCharts() {
@@ -215,10 +344,12 @@
                     console.log('Socket.IO disconnected');
                     updateSystemStatus(false);
                 });
-                
+                socket.on('flow_feature', function(data) {
+                    updateFlowFeatures(data);                    
+                });
                 socket.on('network_stats', function(data) {
-                    updateDashboardStats(data);                    
-                });               
+                    updateDashboardStats(data);
+                });
                 // 处理威胁数据更新
                 socket.on('threat_update', function(data) {
                     updateThreatList(data);
@@ -236,6 +367,7 @@
                 // 获取系统状态
                 $.get('/api/status', function(data) {
                     console.log("获取系统状态");
+                    is_run=data.is_running;
                     updateSystemStatus(true, data.is_running);
                 });
                 
@@ -243,7 +375,11 @@
                 $.get('/api/network_stats', function(data) {
                     updateDashboardStats(data);                    
                 });
-                
+                if (is_run) {
+                    $.get('/api/flow_features', function (data) {
+                        updateFlowFeatures(data);
+                    });
+                }
                 // 获取威胁数据
                 $.get('/api/threats', function(data) {
                     if (data.threats) {
@@ -261,11 +397,8 @@
                 setInterval(fetchData, 10000);
             }
             
-            // 设置按钮事件
-            function setupButtonEvents() {
-                
-            }
-            
+          
+
             // 更新系统状态
             function updateSystemStatus(connected, isRunning) {
                 if (!connected) {
@@ -282,6 +415,7 @@
                 } else {
                     // 如果没有提供isRunning，则直接发送请求获取状态
                     $.get('/api/status', function(data) {
+                        is_run=data.is_running;
                         if (data.is_running) {
                             $('#systemStatusBadge').removeClass('bg-danger bg-warning').addClass('bg-success').text('运行中');
                         } else {
@@ -333,7 +467,48 @@
                 // }
             }
             
-           
+           function updateFlowFeatures(data) {
+
+                console.log(data);
+                if (!data) return;
+                    // 流量统计
+               console.log("更新流量特征");
+                const $flowfeatureBody = $('#flowfeature tbody');
+
+                // 清空现有内容
+                $flowfeatureBody.empty();
+                features=data.features;
+                $('#connectionsStat').text(features.length);
+                // 计算总流量
+                let totalBytes = 0;
+                let maxDuration = 0;
+                features.forEach(feature => {
+                    totalBytes += parseInt(feature['Total Length of Fwd Packets']+feature['Total Length of Bwd Packets']);
+                    maxDuration = Math.max(maxDuration, parseFloat(feature['Flow Duration(ms)']));
+                    const row = `
+                        <tr>
+                            <td>${feature['Src IP']}</td>
+                            <td>${feature['Dst IP']}</td>
+                            <td>${feature['Src Port']}</td>
+                            <td>${feature['Dst Port']}</td>
+                            <td>${feature['Protocol']}</td>
+                            <td>${feature['Fwd Pkts/s']}</td>
+                            <td>${feature['Bwd Pkts/s']}</td>
+                            <td>${feature['Total Length of Fwd Packets']}</td>
+                            <td>${feature['Total Length of Bwd Packets']}</td>
+                            <td>${feature['Flow Duration(ms)']}</td>
+                            <td>${feature['FIN Count']}</td>
+                            <td>${feature['SYN Count']}</td>
+                            <td>${feature['RST Count']}</td>
+                            <td>${feature['ACK Count']}</td>
+                        </tr>
+                    `;
+                    $flowfeatureBody.append(row);
+                });
+                // 计算每秒流量 (bytes per second)
+                const trafficRate = (totalBytes / (maxDuration / 1000)).toFixed(2);
+                $('#trafficStat').text(formatBytes(trafficRate) + '/s');
+          }
             // 更新攻击类型图表
             function updateAttackChart(data) {
                 if (!data.attack_stats) return;
@@ -358,8 +533,9 @@
             
             // 更新威胁列表
             function updateThreatList(threats) {
+                //console.log(threats)
                 if (!Array.isArray(threats)) return;
-                
+                //console.log(threats)
                 // 保存威胁数据
                 threatList = threats;
                 
@@ -367,10 +543,10 @@
                 let threatHtml = '';
                 
                 // 最多显示5条最新的威胁
-                const latestThreats = threats.slice(0, 5);
+                //const latestThreats = threats.slice(0, 5);
                 
-                latestThreats.forEach(threat => {
-                    const time = new Date(threat.timestamp).toLocaleString();
+                threats.forEach(threat => {
+                    //const time = new Date(threat.timestamp).toLocaleString();
                     const severity = threat.severity || '未知';
                     const severityClass = severity === '高' ? 'high' : (severity === '中' ? 'medium' : 'low');
                     
@@ -380,7 +556,6 @@
                                 <span class="threat-severity severity-${severityClass}"></span>
                                 ${threat.threat_type || threat.alert_type || '未知威胁'}
                             </span>
-                            <small class="text-muted">${time}</small>
                         </div>
                         <div class="mt-1">
                             <small>来源: ${threat.src_ip || '未知'} → ${threat.dst_ip || '未知'}</small>
@@ -394,6 +569,7 @@
                 
                 // 更新DOM
                 $('#threatList').html(threatHtml);
+
             }
             
             
@@ -403,15 +579,16 @@
             // 计算攻击类型统计
             function countAttackTypes(threats) {
                 const counts = {};
-                
+                var total=0;
                 threats.forEach(threat => {
                     const type = threat.threat_type || threat.alert_type || '未知';
+                    if(type!=="正常流量") total+=1;
                     if (!counts[type]) {
                         counts[type] = 0;
                     }
                     counts[type]++;
                 });
-                
+                $('#threatsStat').text(total)
                 return counts;
             }
             

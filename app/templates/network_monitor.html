@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,13 +9,15 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
 </head>
+
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
             <a class="navbar-brand" href="/">
                 <i class="fa fa-shield"></i> 网络入侵检测系统
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="切换导航">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="切换导航">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
@@ -22,14 +25,8 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/">主页</a>
                     </li>
-                    <!-- <li class="nav-item">
-                        <a class="nav-link" href="/dashboard">仪表盘</a>
-                    </li> -->
                     <li class="nav-item">
                         <a class="nav-link" href="/logs">日志</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="/settings">设置</a>
                     </li>
                 </ul>
             </div>
@@ -39,27 +36,13 @@
         <div class="row mb-4">
             <div class="col-md-12">
                 <div class="alert alert-info" role="alert">
-                    <i class="fa fa-info-circle"></i> 仪表盘数据每秒自动更新。系统状态：<span id="systemStatusBadge" class="badge bg-danger">未运行</span>
+                    <i class="fa fa-info-circle"></i> 数据每秒自动更新。系统状态：<span id="systemStatusBadge"
+                        class="badge bg-danger">未运行</span>
                 </div>
             </div>
         </div>
         <div class="row mb-4">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">网络流量统计</h5>
-                        <div class="btn-group btn-group-sm">
-                            <button type="button" class="btn btn-outline-secondary traffic-time-btn active" data-time="10">10分钟</button>
-                            <button type="button" class="btn btn-outline-secondary traffic-time-btn" data-time="30">30分钟</button>
-                            <button type="button" class="btn btn-outline-secondary traffic-time-btn" data-time="60">1小时</button>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <canvas id="trafficChart" height="250"></canvas>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
+            <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
                         <h5 class="mb-0">协议分布</h5>
@@ -74,11 +57,33 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header">
+                    <div class="card-header d-flex justify-content-between align-items-center">
                         <h5 class="mb-0">数据包捕获</h5>
+                        <div class="d-flex gap-2 flex-wrap">
+                            <div class="input-group input-group-sm" style="width: 160px;">
+                                <span class="input-group-text"><i class="fa fa-laptop"></i></span>
+                                <input type="text" class="form-control" id="filterSrcIP" placeholder="源IP">
+                            </div>
+                            <div class="input-group input-group-sm" style="width: 160px;">
+                                <span class="input-group-text"><i class="fa fa-server"></i></span>
+                                <input type="text" class="form-control" id="filterDstIP" placeholder="目的IP">
+                            </div>
+                            <div class="input-group input-group-sm" style="width: 120px;">
+                                <span class="input-group-text">S端口</span>
+                                <input type="number" class="form-control" id="filterSrcPort">
+                            </div>
+                            <div class="input-group input-group-sm" style="width: 120px;">
+                                <span class="input-group-text">D端口</span>
+                                <input type="number" class="form-control" id="filterDstPort">
+                            </div>
+                            <button type="button" class="btn btn-primary btn-sm" id="applyPacketFilter">
+                                <i class="fa fa-filter"></i> 筛选
+                            </button>
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
+
+                    <div class="card-body p-0">
+                        <div class="table-responsive" style="max-height: 400px;">
                             <table class="table table-hover" id="packetTable">
                                 <thead>
                                     <tr>
@@ -86,7 +91,7 @@
                                         <th>源IP</th>
                                         <th>源IP归属地</th>
                                         <th>源端口</th>
-                                        <th>目的IP/MAC</th>
+                                        <th>目的IP</th>
                                         <th>目的IP归属地</th>
                                         <th>目的端口</th>
                                         <th>协议</th>
@@ -102,12 +107,30 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div id="packetDetails" class="mt-4" style="display: none;">
-                            <h6>数据包详情</h6>
-                            <div class="card">
-                                <div class="card-body">
-                                    <pre id="packetRaw" class="bg-light p-3"></pre>
-                                    <div id="packetAnalysis" class="mt-3"></div>
+
+                        <!-- 协议解析和十六进制区域 -->
+                        <div class="container-fluid border-top mt-3" style="height: 300px;">
+                            <div class="row h-100">
+                                <div class="col-6 p-3 border-end d-flex flex-column"
+                                    style="max-height: 300px; overflow: hidden;">
+                                    <!-- 协议解析标题 -->
+                                    <div class="bg-white pb-2">
+                                        <h6>协议解析</h6>
+                                    </div>
+                                    <!-- 协议解析内容 -->
+                                    <div id="protocolStack" class="font-monospace small flex-grow-1"
+                                        style="overflow-y: scroll;">
+                                    </div>
+                                </div>
+
+                                <div class="col-6 p-3 d-flex flex-column" style="max-height: 300px; overflow: hidden;">
+                                    <!-- 十六进制标题 -->
+                                    <div class="bg-white pb-2">
+                                        <h6>十六进制元数据与字符表示</h6>
+                                    </div>
+                                    <!-- 十六进制内容 -->
+                                    <pre id="hexData" class=" flex-grow-1"
+                                        style="overflow-y: scroll; margin-bottom: 0;"></pre>
                                 </div>
                             </div>
                         </div>
@@ -118,353 +141,184 @@
     </div>
     <footer class="footer mt-5 py-3 bg-dark text-white">
         <div class="container text-center">
-            <p>&copy; 2025 网络入侵检测系统 | by kja</p>
+            <p>&copy; 2025 网络入侵检测系统 | by kja and hyw </p>
         </div>
     </footer>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment@1.0.0"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/socket.io-client@4.4.0/dist/socket.io.min.js"></script>
     <script>
-        $(document).ready(function() {
-    // 连接WebSocket
-    const socket = io();
-    
-    // 图表对象
-    let trafficChart = null;
-    let protocolChart = null;
-    
-    // 流量数据
-    const trafficData = {
-        timestamps: [],
-        inbound: [],
-        outbound: []
-    };
-    
-    // 协议数据
-    const protocolData = {
-        labels: [],
-        counts: []
-    };
-    
-    // 时间范围（默认10分钟）
-    let timeRange = 10;
-    // 获取初始数据
-    fetchInitialData();
-    // 初始化图表
-    initCharts();
-    
-    // SocketIO事件处理
-    setupSocketEvents();
-    
-    
-    
-    // 设置按钮事件
-    setupButtonEvents();
-    
-    // 初始化图表
-    function initCharts() {
-        // 网络流量图表
-        const trafficCtx = document.getElementById('trafficChart').getContext('2d');
-        trafficChart = new Chart(trafficCtx, {
-            type: 'line',
-            data: {
-                labels: [],
-                datasets: [
-                    {
-                        label: '入站流量 (KB/s)',
-                        data: [],
-                        borderColor: 'rgba(58, 134, 255, 1)',
-                        backgroundColor: 'rgba(58, 134, 255, 0.1)',
-                        borderWidth: 2,
-                        fill: true,
-                        tension: 0.4
-                    },
-                    {
-                        label: '出站流量 (KB/s)',
-                        data: [],
-                        borderColor: 'rgba(255, 99, 132, 1)',
-                        backgroundColor: 'rgba(255, 99, 132, 0.1)',
-                        borderWidth: 2,
-                        fill: true,
-                        tension: 0.4
-                    }
-                ]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    x: {
-                        grid: {
-                            display: false
-                        }
-                    },
-                    y: {
-                        beginAtZero: true,
-                        grid: {
-                            color: 'rgba(0, 0, 0, 0.05)'
-                        }
-                    }
-                }
-            }
-        });
-        
-        // 协议分布图表
-        const protocolCtx = document.getElementById('protocolChart').getContext('2d');
-        protocolChart = new Chart(protocolCtx, {
-            type: 'doughnut',
-            data: {
-                labels: [],
-                datasets: [{
-                    data: [],
-                    backgroundColor: [
-                        'rgba(58, 134, 255, 0.8)',
-                        'rgba(56, 176, 0, 0.8)',
-                        'rgba(255, 170, 0, 0.8)',
-                        'rgba(217, 4, 41, 0.8)',
-                        'rgba(0, 180, 216, 0.8)'
-                    ]
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'right'
-                    }
-                }
-            }
-        });
-    }
-    
-    // 设置Socket事件
-    function setupSocketEvents() {
-        socket.on('connect', function() {
-            console.log('Socket.IO connected');
-            updateSystemStatus(true);
-        });
-        socket.on('disconnect', function() {
-            console.log('Socket.IO disconnected');
-            updateSystemStatus(false);
-        });
-        socket.on('network_stats', function(data) {
-            updateTrafficChart(data);
-            updateProtocolChart(data);
-        });
-        
-        socket.on('packet_capture', function(data) {
-            updatePacketTable(data);
-        });
+        $(document).ready(function () {
+            // 连接WebSocket
+            const socket = io();
 
-        // 处理状态更新
-        socket.on('status_update', function(data) {
-            updateSystemStatus(true, data.is_running);
-        });
-    }
-    // 更新系统状态
-    function updateSystemStatus(connected, isRunning) {
-        if (!connected) {
-            $('#systemStatusBadge').removeClass('bg-success bg-warning').addClass('bg-danger').text('已断开');
-            return;
-        }
-        
-        if (isRunning !== undefined) {
-            if (isRunning) {
-                $('#systemStatusBadge').removeClass('bg-danger bg-warning').addClass('bg-success').text('运行中');
-            } else {
-                $('#systemStatusBadge').removeClass('bg-danger bg-success').addClass('bg-warning').text('已停止');
-            }
-        } else {
-            // 如果没有提供isRunning，则直接发送请求获取状态
-            $.get('/api/status', function(data) {
-                if (data.is_running) {
-                    $('#systemStatusBadge').removeClass('bg-danger bg-warning').addClass('bg-success').text('运行中');
-                } else {
-                    $('#systemStatusBadge').removeClass('bg-danger bg-success').addClass('bg-warning').text('已停止');
-                }
-            });
-        }
-    }
-    // 更新数据包表格
-    function updatePacketTable(data) {
-        const tbody = $('#packetTable tbody');
-        tbody.empty();
-        
-        data.packets.forEach(packet => {
-            const row = $('<tr>').append(
-                $('<td>').text(moment(packet.timestamp).format('YYYY-MM-DD HH:mm:ss')),
-                $('<td>').text(packet.src_ip),
-                $('<td>').text(packet.src_location || '未知'),
-                $('<td>').text(packet.src_port),
-                $('<td>').text(packet.dst_ip || packet.dst_mac),
-                $('<td>').text(packet.dst_location || '未知'),
-                $('<td>').text(packet.dst_port),
-                $('<td>').text(packet.protocol),
-                $('<td>').text(formatBytes(packet.size))
-            );
-            
-            // 添加点击事件显示数据包详情
-            row.click(function() {
-                showPacketDetails(packet);
-            });
-                
-                tbody.append(row);
-            });
-        }
-        
-        // 显示数据包详情
-        function showPacketDetails(packet) {
-            $('#packetDetails').show();
-            $('#packetRaw').text(packet.raw_data);
-            $('#packetAnalysis').html(generatePacketAnalysis(packet));
-        }
-        
-        // 生成数据包分析HTML
-        function generatePacketAnalysis(packet) {
-            return `
-                <div class="card">
-                    <div class="card-body">
-                        <h6>数据包分析</h6>
-                        <ul class="list-unstyled">
-                            <li><strong>协议类型：</strong>${packet.protocol}</li>
-                            <li><strong>数据包大小：</strong>${formatBytes(packet.size)}</li>
-                            <li><strong>TTL：</strong>${packet.ttl}</li>
-                            <li><strong>校验和：</strong>${packet.checksum}</li>
-                        </ul>
-                    </div>
-                </div>
-            `;
-        }
-        
-        // 格式化字节大小
-        function formatBytes(bytes) {
-            if (bytes === 0) return '0 B';
-            const k = 1024;
-            const sizes = ['B', 'KB', 'MB', 'GB'];
-            const i = Math.floor(Math.log(bytes) / Math.log(k));
-            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-        }
-        
-        // 设置按钮事件
-        function setupButtonEvents() {
-            $('.traffic-time-btn').click(function() {
-                $('.traffic-time-btn').removeClass('active');
-                $(this).addClass('active');
-                timeRange = parseInt($(this).data('time'));
-                updateTrafficChartRange();
-            });
-        }
-        
-        
-        function fetchData() {
-            // 获取系统状态
-            $.get('/api/status', function(data) {
-                console.log("获取系统状态");
-                console.log(data);
-                updateSystemStatus(true, data.is_running);
-            });
-            $.get('/api/network_stats', function(data) {
-                updateTrafficChart(data);
-                updateProtocolChart(data);
-            });
-            
-            $.get('/api/packets', function(data) {
-                updatePacketTable(data);
-            });
-        }
-        // 获取初始数据
-        function fetchInitialData() {
-            fetchData();
-            
-            // 设置定时刷新 (每10秒刷新一次)
-            setInterval(fetchData, 10000);
-        }
-         // 更新流量图表
-         function updateTrafficChart(data) {
-                if (!trafficChart) return;
-                
-                // 如果有数据则使用数据，否则模拟数据
-                if (data && data.history) {
-                    // 使用真实数据
-                    trafficData.timestamps = data.history.map(p => {
-                        const date = new Date(p.timestamp);
-                        return date.toLocaleTimeString('zh-CN', {hour: '2-digit', minute:'2-digit', second:'2-digit'});
-                    });
-                    trafficData.inbound = data.history.map(p => p.incoming / 1024); // 转换为MB
-                    trafficData.outbound = data.history.map(p => p.outgoing / 1024);
-                } else {
-                    // 生成模拟数据
-                    const now = new Date();
-                    
-                    if (trafficData.timestamps.length === 0 || trafficData.timestamps.length > 60) {
-                        // 初始化或重置数据
-                        trafficData.timestamps = [];
-                        trafficData.inbound = [];
-                        trafficData.outbound = [];
-                        
-                        // 生成过去10分钟的数据
-                        for (let i = 9; i >= 0; i--) {
-                            const time = new Date(now - i * 60000);
-                            trafficData.timestamps.push(time.toLocaleTimeString('zh-CN', {hour: '2-digit', minute:'2-digit', second:'2-digit'}));
-                            trafficData.inbound.push(Math.random() * 5 + 0.5); // 0.5-5.5 MB
-                            trafficData.outbound.push(Math.random() * 3 + 0.2); // 0.2-3.2 MB
-                        }
-                    } else {
-                        // 添加新数据点
-                        const time = now.toLocaleTimeString('zh-CN', {hour: '2-digit', minute:'2-digit', second:'2-digit'});
-                        trafficData.timestamps.push(time);
-                        trafficData.inbound.push(Math.random() * 5 + 0.5);
-                        trafficData.outbound.push(Math.random() * 3 + 0.2);
-                        
-                        // 保持最近10分钟的数据
-                        if (trafficData.timestamps.length > 60) {
-                            trafficData.timestamps.shift();
-                            trafficData.inbound.shift();
-                            trafficData.outbound.shift();
+            // 图表对象
+            let trafficChart = null;
+            let protocolChart = null;
+            // 筛选条件对象
+            let currentFilters = {
+                src_ip: '',
+                dst_ip: '',
+                src_port: '',
+                dst_port: ''
+            };
+
+
+            // 协议数据
+            const protocolData = {
+                labels: [],
+                counts: []
+            };
+
+            // 时间范围（默认10分钟）
+            let timeRange = 10;
+
+            // 初始化图表
+            initCharts();
+
+            // SocketIO事件处理
+            setupSocketEvents();
+
+            // 获取初始数据
+            fetchInitialData();
+
+            // 设置按钮事件
+            setupButtonEvents();
+
+            // 初始化图表
+            function initCharts() {
+                // 协议分布图表
+                const protocolCtx = document.getElementById('protocolChart').getContext('2d');
+                protocolChart = new Chart(protocolCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: [],
+                        datasets: [{
+                            data: [],
+                            backgroundColor: [
+                                'rgba(58, 134, 255, 0.8)',
+                                'rgba(56, 176, 0, 0.8)',
+                                'rgba(255, 170, 0, 0.8)',
+                                'rgba(217, 4, 41, 0.8)',
+                                'rgba(0, 180, 216, 0.8)'
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'right'
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function (context) {
+                                    const label = context.label || '';
+                                    const value = context.raw || 0;
+                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    const percentage = Math.round((value / total) * 100);
+                                    return `${label}: ${value} (${percentage}%)`;
+                                }
+                            }
                         }
                     }
-                }
-                
-                // 更新图表数据
-                trafficChart.data.labels = trafficData.timestamps;
-                trafficChart.data.datasets[0].data = trafficData.inbound;
-                trafficChart.data.datasets[1].data = trafficData.outbound;
-                trafficChart.update();
-            }
-            
-            // 根据时间范围更新流量图表
-            function updateTrafficChartRange() {
-                // 计算timeRange分钟内的数据
-                const maxPoints = timeRange * 60;
-                const timestamps = trafficData.timestamps.slice(-maxPoints);
-                const inbound = trafficData.inbound.slice(-maxPoints);
-                const outbound = trafficData.outbound.slice(-maxPoints);
-                
-                // 格式化时间标签
-                const labels = timestamps.map(t => {
-                    return t.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
                 });
-                
-                // 更新图表数据
-                trafficChart.data.labels = labels;
-                trafficChart.data.datasets[0].data = inbound;
-                trafficChart.data.datasets[1].data = outbound;
-                trafficChart.update();
             }
-            
+
+            // 设置Socket事件
+            function setupSocketEvents() {
+                socket.on('connect', function () {
+                    console.log('Socket.IO connected');
+                    updateSystemStatus(true);
+                });
+                socket.on('disconnect', function () {
+                    console.log('Socket.IO disconnected');
+                    updateSystemStatus(false);
+                });
+                socket.on('Protocol_stats', function (data) {
+                    updateProtocolChart(data);
+                });
+
+                socket.on('packets', function (data) {
+                    updatePacketTable(data);
+                });
+
+                // 处理状态更新
+                socket.on('status_update', function (data) {
+                    updateSystemStatus(true, data.is_running);
+                });
+            }
+
+            // 格式化字节大小
+            function formatBytes(bytes) {
+                if (bytes === 0) return '0 B';
+                const k = 1024;
+                const sizes = ['B', 'KB', 'MB', 'GB'];
+                const i = Math.floor(Math.log(bytes) / Math.log(k));
+                return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+            }
+
+            // 设置按钮事件
+            function setupButtonEvents() {
+                $('#applyPacketFilter').click(function () {
+                    currentFilters = {
+                        src_ip: $('#filterSrcIP').val().trim(),
+                        dst_ip: $('#filterDstIP').val().trim(),
+                        src_port: $('#filterSrcPort').val().trim(),
+                        dst_port: $('#filterDstPort').val().trim()
+                    };
+                    fetchPacketData(currentFilters);
+                });
+
+            }
+            function fetchPacketData(filters = null) {
+                $.get('/api/packets', filters, function (data) {
+                    updatePacketTable(data, filters);
+                });
+            }
+            function fetchData() {
+                // 获取系统状态
+                $.get('/api/status', function (data) {
+                    console.log("获取系统状态");
+                    console.log(data);
+                    updateSystemStatus(true, data.is_running);
+                });
+                $.get('/api/protocol_stats', function (data) {
+                    updateProtocolChart(data);
+                });
+                currentFilters = {
+                    src_ip: $('#filterSrcIP').val().trim(),
+                    dst_ip: $('#filterDstIP').val().trim(),
+                    src_port: $('#filterSrcPort').val().trim(),
+                    dst_port: $('#filterDstPort').val().trim()
+                };
+                fetchPacketData(currentFilters);
+            }
+            // 获取初始数据
+            function fetchInitialData() {
+                fetchData();
+                // 设置定时刷新 (每10秒刷新一次)
+                setInterval(fetchData, 10000);
+            }
+
             // 更新协议分布图表
             function updateProtocolChart(data) {
                 if (!protocolChart) return;
-                
+
                 // 如果有数据则使用数据，否则模拟数据
                 let protocolLabels = [];
                 let protocolCounts = [];
-                
-                if (data && data.protocol_stats) {
-                    protocolLabels = Object.keys(data.protocol_stats);
-                    protocolCounts = Object.values(data.protocol_stats);
+
+                if (data) {
+                    protocolLabels = Object.keys(data);
+                    protocolCounts = Object.values(data);
                 } else {
                     // 模拟数据
                     protocolLabels = ['TCP', 'UDP', 'HTTP', 'HTTPS', 'ICMP', 'DNS', 'Other'];
@@ -478,95 +332,183 @@
                         Math.floor(Math.random() * 30) + 5
                     ];
                 }
-                
+
                 // 更新图表数据
                 protocolChart.data.labels = protocolLabels;
                 protocolChart.data.datasets[0].data = protocolCounts;
                 protocolChart.update();
             }
-            // 更新IP表格
-            function updateIpTable(data) {
-                const $ipTableBody = $('#ipTable tbody');
-                
-                // 清空现有内容
-                $ipTableBody.empty();
-                
-                // 如果有真实数据，则使用真实数据，否则生成模拟数据
-                let ipEntries = [];
-                
-                if (data && data.ip_data && Object.keys(data.ip_data).length > 0) {
-                    // 使用真实数据
-                    for (const [ip, ipInfo] of Object.entries(data.ip_data)) {
-                        ipEntries.push({
-                            ip: ip,
-                            inTraffic: ipInfo.in_traffic,
-                            outTraffic: ipInfo.out_traffic,
-                            threats: ipInfo.threats,
-                            lastSeen: ipInfo.last_seen,
-                            isBlocked: ipInfo.is_blocked
-                        });
+            // 更新系统状态
+            function updateSystemStatus(connected, isRunning) {
+                if (!connected) {
+                    $('#systemStatusBadge').removeClass('bg-success bg-warning').addClass('bg-danger').text('已断开');
+                    return;
+                }
+
+                if (isRunning !== undefined) {
+                    if (isRunning) {
+                        $('#systemStatusBadge').removeClass('bg-danger bg-warning').addClass('bg-success').text('运行中');
+                    } else {
+                        $('#systemStatusBadge').removeClass('bg-danger bg-success').addClass('bg-warning').text('已停止');
                     }
                 } else {
-                    // 生成模拟数据
-                    const ipCount = Math.floor(Math.random() * 5) + 5; // 5-10个IP
-                    
-                    for (let i = 0; i < ipCount; i++) {
-                        const ipOctet3 = Math.floor(Math.random() * 255) + 1;
-                        const ipOctet4 = Math.floor(Math.random() * 255) + 1;
-                        const ip = `192.168.${ipOctet3}.${ipOctet4}`;
-                        
-                        ipEntries.push({
-                            ip: ip,
-                            inTraffic: Math.floor(Math.random() * 1000000) + 1000, // 1KB - 1MB
-                            outTraffic: Math.floor(Math.random() * 500000) + 500,  // 500B - 500KB
-                            threats: Math.floor(Math.random() * 5),
-                            lastSeen: new Date().toISOString(),
-                            isBlocked: Math.random() < 0.2 // 20%概率被阻止
-                        });
-                    }
+                    // 如果没有提供isRunning，则直接发送请求获取状态
+                    $.get('/api/status', function (data) {
+                        if (data.is_running) {
+                            $('#systemStatusBadge').removeClass('bg-danger bg-warning').addClass('bg-success').text('运行中');
+                        } else {
+                            $('#systemStatusBadge').removeClass('bg-danger bg-success').addClass('bg-warning').text('已停止');
+                        }
+                    });
                 }
-                
-                // 按流量排序
-                ipEntries.sort((a, b) => (b.inTraffic + b.outTraffic) - (a.inTraffic + a.outTraffic));
-                
-                // 添加到表格
-                for (const entry of ipEntries) {
-                    const lastSeen = new Date(entry.lastSeen);
-                    const formattedTime = lastSeen.toLocaleString('zh-CN');
-                    
-                    const statusClass = entry.isBlocked ? 'bg-danger' : (entry.threats > 0 ? 'bg-warning' : 'bg-success');
-                    const statusText = entry.isBlocked ? '已阻止' : (entry.threats > 0 ? '警告' : '正常');
-                    
-                    const row = `
+            }
+            // 更新数据包表格
+            function updatePacketTable(data, filters = null) {
+                const tbody = $('#packetTable tbody');
+                tbody.empty();
+
+                // 过滤数据包
+                let filteredPackets = data;
+                if (filters) {
+                    filteredPackets = data.filter(packet => {
+                        // 源IP匹配 (支持部分匹配)
+                        if (filters.src_ip && !packet.src_ip.includes(filters.src_ip)) return false;
+
+                        // 目的IP匹配 (支持部分匹配)
+                        if (filters.dst_ip && !packet.dst_ip.includes(filters.dst_ip)) return false;
+
+                        // 源端口精确匹配（转换为字符串比较）
+                        if (filters.src_port && packet.src_port.toString() !== filters.src_port) return false;
+
+                        // 目的端口精确匹配（转换为字符串比较）
+                        if (filters.dst_port && packet.dst_port.toString() !== filters.dst_port) return false;
+
+                        return true; // 满足所有筛选条件
+                    });
+                }
+
+                // 无数据提示
+                if (filteredPackets.length === 0) {
+                    tbody.append(`
                         <tr>
-                            <td>${entry.ip}</td>
-                            <td>${formatBytes(entry.inTraffic)}</td>
-                            <td>${formatBytes(entry.outTraffic)}</td>
-                            <td>${entry.threats}</td>
-                            <td>${formattedTime}</td>
-                            <td><span class="badge ${statusClass}">${statusText}</span></td>
-                            <td>
-                                <button class="btn btn-sm btn-outline-info view-ip-btn" data-ip="${entry.ip}"><i class="fa fa-eye"></i></button>
-                                ${!entry.isBlocked ? `<button class="btn btn-sm btn-outline-danger block-ip-btn" data-ip="${entry.ip}"><i class="fa fa-ban"></i></button>` : ''}
+                            <td colspan="9" class="text-center text-muted">
+                                <i class="fa fa-database"></i> 没有匹配的数据包
                             </td>
-                        </tr>
-                    `;
-                    
-                    $ipTableBody.append(row);
+                        </tr>`);
+                    return;
                 }
-                
-                // 设置按钮事件
-                $('.view-ip-btn').click(function() {
-                    const ip = $(this).data('ip');
-                    viewIPDetails(ip);
-                });
-                
-                $('.block-ip-btn').click(function() {
-                    const ip = $(this).data('ip');
-                    blockIP(ip);
+
+                // 填充表格数据
+                filteredPackets.forEach(packet => {
+                    const row = $(`
+                        <tr data-packet='${JSON.stringify(packet).replace(/'/g, "\\'")}'>
+                            <td>${moment(packet.timestamp).format('YYYY-MM-DD HH:mm:ss')}</td>
+                            <td>${packet.src_ip}</td>
+                            <td>${packet.src_location || '未知'}</td>
+                            <td>${packet.src_port}</td>
+                            <td>${packet.dst_ip}</td>
+                            <td>${packet.dst_location || '未知'}</td>
+                            <td>${packet.dst_port}</td>
+                            <td>${packet.protocol}</td>
+                            <td>${formatBytes(packet.size)}</td>
+                        </tr>`);
+                    // 添加点击事件
+                    row.click(function () {
+                        const packetData = $(this).data('packet');
+                        showPacketDetails(packetData);
+
+                        // 高亮当前选中行
+                        $('#packetTable tr').removeClass('table-active');
+                        $(this).addClass('table-active');
+                    });
+
+                    tbody.append(row);
                 });
             }
-    });
+
+            // 显示数据包详情
+            function showPacketDetails(packet) {
+                // 显示加载状态
+                $('#protocolStack').html('<div class="text-center py-4"><i class="fa fa-spinner fa-spin"></i> 解析数据包中...</div>');
+                $('#hexData').html('<div class="text-center py-4"><i class="fa fa-spinner fa-spin"></i> 加载中...</div>');
+
+                // 调用后端解析接口
+                $.ajax({
+                    url: '/api/detect_protocols',
+                    method: 'POST',
+                    contentType: 'application/json',  // 关键：设置正确的 Content-Type
+                    data: JSON.stringify({ raw_data: packet.raw }), // 转换为 JSON 字符串
+                    success: function (resp) {
+                        $('#protocolStack').empty();
+                        if (resp.protocols && resp.protocols.length > 0) {
+                            resp.protocols.forEach(layer => {
+                                const fields = Object.entries(layer.fields)
+                                    .map(([k, v]) => `<span class="text-primary">${k}:</span> ${v}`)
+                                    .join('<br>');
+
+                                $('#protocolStack').append(`
+                                    <div class="card mb-2">
+                                        <div class="card-header py-1">
+                                            ${layer.name} 协议
+                                        </div>
+                                        <div class="card-body py-2">
+                                            ${fields}
+                                        </div>
+                                    </div>`);
+                            });
+                        } else {
+                            $('#protocolStack').html('<div class="text-muted">无协议解析数据</div>');
+                        }
+                    },
+                    error: function (xhr) {
+                        console.error('请求失败:', xhr.responseText);
+                    }
+                });
+
+                // 十六进制显示
+                const hexStr = hexDump(packet.raw);
+                $('#hexData').html(hexStr || '<div class="text-muted">无原始数据</div>');
+            }
+
+
+            // 十六进制转储函数
+            function hexDump(data) {
+                if (!data) return "无数据";
+
+                // 将数据转换为字节数组
+                const bytes = new TextEncoder().encode(data);
+
+                // 每行显示16字节（32个十六进制字符 + 15个空格）
+                const bytesPerLine = 16;
+                let hexOutput = '';
+                let asciiOutput = '';
+
+                bytes.forEach((byte, index) => {
+                    // 每个字节转为两位十六进制+空格
+                    hexOutput += byte.toString(16).padStart(2, '0') + ' ';
+
+                    // ASCII字符显示，不可打印字符用'.'代替
+                    asciiOutput += (byte >= 32 && byte <= 126) ? String.fromCharCode(byte) : '.';
+                    asciiOutput +=  ' ';
+                    // 每16字节换行
+                    if ((index + 1) % bytesPerLine === 0) {
+                        hexOutput += " |  " + asciiOutput + '\n';
+                        asciiOutput = ''; // 重置ASCII输出
+                    }
+                });
+
+                // 处理最后一行不足16字节的情况
+                const remaining = bytes.length % bytesPerLine;
+                if (remaining > 0) {
+                    // 补齐空格保持对齐 (3个字符/字节 * 剩余字节数)
+                    hexOutput += '   '.repeat(bytesPerLine - remaining);
+                    hexOutput += " |  " + asciiOutput; // 添加当前行的ASCII字符
+                }
+
+                return `<pre class="hex-only">${hexOutput}</pre>`;
+            }
+        });
     </script>
 </body>
+
 </html>

@@ -200,6 +200,7 @@
             
             // 启动系统
             $('#startBtn').click(function() {
+                console.log('startBtn clicked');
                 $.post('/api/start', function(response) {
                     if (response.success) {
                         getSystemStatus();
