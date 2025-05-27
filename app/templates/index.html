@@ -28,9 +28,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/logs">日志</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="/settings">设置</a>
-                    </li>
+{#                    <li class="nav-item">#}
+{#                        <a class="nav-link active" href="/settings">设置</a>#}
+{#                    </li>#}
                 </ul>
             </div>
         </div>
@@ -89,7 +89,7 @@
                     </div>
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-md-3">
+                            <div class="col-md-6">
                                 <div class="status-card">
                                     <h5>系统状态</h5>
                                     <p id="systemStatus" class="status-value inactive">
@@ -97,24 +97,13 @@
                                     </p>
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-6">
                                 <div class="status-card">
                                     <h5>运行时间</h5>
                                     <p id="uptime" class="status-value">00:00:00</p>
                                 </div>
                             </div>
-                            <div class="col-md-3">
-                                <div class="status-card">
-                                    <h5>处理数据包</h5>
-                                    <p id="processedPackets" class="status-value">0</p>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="status-card">
-                                    <h5>检测到的威胁</h5>
-                                    <p id="detectedThreats" class="status-value">0</p>
-                                </div>
-                            </div>
+
                         </div>
                     </div>
                 </div>

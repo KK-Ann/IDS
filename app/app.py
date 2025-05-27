@@ -60,9 +60,7 @@ def index():
     return render_template('index.html')
 
 
-# @app.route('/dashboard')
-# def dashboard():
-#     return render_template('dashboard.html')
+
 @app.route('/network_monitor')
 def network():
     return render_template('network_monitor.html')
@@ -74,10 +72,6 @@ def intrusion():
 def logs():
     return render_template('logs.html')
 
-
-# @app.route('/settings')
-# def settings():
-#     return render_template('settings.html')
 
 
 # API路由
@@ -110,10 +104,8 @@ def stop_system():
         system_status['is_running'] = False
 
         # 停止各个模块
-        #pocket_detector.stop_capture()
-        #intrusion_prevention.stop_prevention()
-        #alert_system.stop_alerting()
-        # network_monitor.stop_monitoring()
+        pocket_detector.stop_capture()
+
 
         logger.info("系统已停止")
         return jsonify({'success': True, 'message': '系统已停止'})
@@ -182,24 +174,6 @@ def start_threatdetection():
             return jsonify({"success": True,"data":{"threats":flow_feature.predictThreat()}})
     except Exception as e:
         return jsonify(success=False, message=f"威胁识别失败：{str(e)}")
-
-
-    
-
-
-
-
-
-# @app.route('/api/logs')
-# def get_logs():
-#     limit = request.args.get('limit', 100, type=int)
-#     return jsonify({'logs': alert_system.get_recent_alerts(limit)})
-
-
-# @app.route('/api/threats')
-# def get_threats():
-#     return jsonify({'threats': intrusion_prevention.get_recent_threats()})
-
 
 # Socket.IO 事件
 @socketio.on('connect')

@@ -149,13 +149,13 @@ class ThreatFind(object):
 
     def predictThreat(self):
         if not self.features_dict:
-            raise ValueError("features_dict is empty. Please run extractFeature() first.")
+            raise ValueError("features_dict 为空. 请先extractFeature()")
             return None
 
         # Step 1: 构建 DataFrame
         df = pd.DataFrame(self.features_dict)
 
-        # Step 2: 去除非数值列和 ID 列
+        # Step 2: 去除无意义列和 ID 列
         id_cols = ["Flow ID", "Source IP", "Destination IP","Timestamp"]
         id_info = df[id_cols].copy()
         df = df.drop(columns=id_cols, errors='ignore')

@@ -4,8 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c7cd623e-2800-4d2e-979b-479e215e11e7" name="Changes" comment="综合修改，快完了">
+    <list default="true" id="c7cd623e-2800-4d2e-979b-479e215e11e7" name="Changes" comment="调整文件结构">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/app.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/data/ids_system.log" beforeDir="false" afterPath="$PROJECT_DIR$/app/data/ids_system.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/model/train/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/model/train/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/modules/threat_find/ThreatFind.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/modules/threat_find/ThreatFind.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/ids_system.log" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,6 +23,17 @@
       <list>
         <option value="Python Script" />
       </list>
+    </option>
+  </component>
+  <component name="FlaskConsoleOptions" custom-start-script="import sys&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo&#10;locals().update(ScriptInfo(create_app=None).load_app().make_shell_context())&#10;print(&quot;Python %s on %s\nApp: %s [%s]\nInstance: %s&quot; % (sys.version, sys.platform, app.import_name, app.env, app.instance_path))">
+    <envs>
+      <env key="FLASK_APP" value="app" />
+    </envs>
+    <option name="myCustomStartScript" value="import sys&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo&#10;locals().update(ScriptInfo(create_app=None).load_app().make_shell_context())&#10;print(&quot;Python %s on %s\nApp: %s [%s]\nInstance: %s&quot; % (sys.version, sys.platform, app.import_name, app.env, app.instance_path))" />
+    <option name="myEnvs">
+      <map>
+        <entry key="FLASK_APP" value="app" />
+      </map>
     </option>
   </component>
   <component name="Git.Settings">
@@ -52,6 +69,7 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;configurable.group.editor&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
@@ -159,6 +177,8 @@
       <workItem from="1748267343446" duration="2988000" />
       <workItem from="1748276300228" duration="6512000" />
       <workItem from="1748283877252" duration="5108000" />
+      <workItem from="1748312331362" duration="8304000" />
+      <workItem from="1748338595069" duration="2853000" />
     </task>
     <task id="LOCAL-00001" summary="环境修复">
       <option name="closed" value="true" />
@@ -216,7 +236,23 @@
       <option name="project" value="LOCAL" />
       <updated>1748289056428</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="调整文件结构">
+      <option name="closed" value="true" />
+      <created>1748331116559</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1748331116559</updated>
+    </task>
+    <task id="LOCAL-00009" summary="调整文件结构">
+      <option name="closed" value="true" />
+      <created>1748331162017</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1748331162017</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -239,14 +275,15 @@
     <MESSAGE value="增加部分说明" />
     <MESSAGE value="拆分模块的前端显示" />
     <MESSAGE value="综合修改，快完了" />
-    <option name="LAST_COMMIT_MESSAGE" value="综合修改，快完了" />
+    <MESSAGE value="调整文件结构" />
+    <option name="LAST_COMMIT_MESSAGE" value="调整文件结构" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/ids$test.coverage" NAME="test Coverage Results" MODIFIED="1748283414291" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/app" />
     <SUITE FILE_PATH="coverage/ids$pcapFeature.coverage" NAME="pcapFeature Coverage Results" MODIFIED="1748267879243" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/app/modules/network_monitoring" />
     <SUITE FILE_PATH="coverage/ids$ThreatFind.coverage" NAME="ThreatFind Coverage Results" MODIFIED="1748274707923" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/app/modules/threat_find" />
     <SUITE FILE_PATH="coverage/ids$detector.coverage" NAME="detector Coverage Results" MODIFIED="1748277979481" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/app/modules/pocket_detection" />
-    <SUITE FILE_PATH="coverage/ids$app.coverage" NAME="app Coverage Results" MODIFIED="1748289073288" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/app" />
+    <SUITE FILE_PATH="coverage/ids$app.coverage" NAME="app Coverage Results" MODIFIED="1748342534889" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/app" />
     <SUITE FILE_PATH="coverage/ids$monitor.coverage" NAME="monitor Coverage Results" MODIFIED="1748082275549" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/app/modules/network_monitoring" />
     <SUITE FILE_PATH="coverage/ids$main.coverage" NAME="main Coverage Results" MODIFIED="1748188726056" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/app/modules/network_monitoring" />
     <SUITE FILE_PATH="coverage/ids$PacketReader.coverage" NAME="PacketReader Coverage Results" MODIFIED="1748261813448" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/app/modules/network_monitoring" />

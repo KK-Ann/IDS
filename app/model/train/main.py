@@ -61,16 +61,6 @@ def feature_engineering(X, y):
     return X_pca.astype(np.float32), y_under, scaler, pca
 
 
-# ====================== 3. 滑动窗口生成器 ======================
-def sliding_window_generator(X, y, window_size=100, batch_size=512):
-    total_samples = len(X) - window_size
-    for start in range(0, total_samples, batch_size):
-        end = min(start + batch_size, total_samples)
-        X_batch = [X[i:i+window_size] for i in range(start, end)]
-        y_batch = [y[i+window_size] for i in range(start, end)]
-        yield np.array(X_batch, dtype=np.float32), np.array(y_batch)
-
-
 # ====================== 4. 模型构建 ======================
 def build_model():
     param_grid = {

@@ -213,3 +213,82 @@
 2025-05-27 14:19:45,342 [INFO] 客户端已断开连接: iBppuA8yKuo67hLyAAAH
 2025-05-27 14:19:45,530 [INFO] 客户端已连接: bUyCLYxr5r2Bd1vXAAAJ
 2025-05-27 14:19:51,049 [INFO] 客户端已断开连接: bUyCLYxr5r2Bd1vXAAAJ
+2025-05-27 15:36:54,189 [INFO] 网络入侵检测系统启动中...
+2025-05-27 15:36:54,195 [INFO]  * Restarting with stat
+2025-05-27 15:37:27,150 [INFO] 网络入侵检测系统启动中...
+2025-05-27 15:37:27,154 [INFO]  * Restarting with stat
+2025-05-27 15:37:29,187 [INFO] 网络入侵检测系统启动中...
+2025-05-27 15:37:29,189 [WARNING]  * Debugger is active!
+2025-05-27 15:37:29,195 [INFO]  * Debugger PIN: 135-649-420
+2025-05-27 15:37:40,084 [INFO] 客户端已连接: Gamtn3PSA3Wf3axnAAAB
+2025-05-27 15:37:42,017 [INFO] 客户端已断开连接: Gamtn3PSA3Wf3axnAAAB
+2025-05-27 15:38:17,602 [INFO] 网络入侵检测系统启动中...
+2025-05-27 15:38:17,605 [INFO]  * Restarting with stat
+2025-05-27 15:38:19,650 [INFO] 网络入侵检测系统启动中...
+2025-05-27 15:38:19,652 [WARNING]  * Debugger is active!
+2025-05-27 15:38:19,657 [INFO]  * Debugger PIN: 135-649-420
+2025-05-27 15:38:23,051 [INFO] 客户端已连接: oX4GOxMCJL3DGAATAAAB
+2025-05-27 15:38:24,273 [INFO] 客户端已断开连接: oX4GOxMCJL3DGAATAAAB
+2025-05-27 15:38:24,559 [INFO] 客户端已连接: WEgKCFMSaD51Dm-QAAAD
+2025-05-27 15:38:26,977 [INFO] 客户端已断开连接: WEgKCFMSaD51Dm-QAAAD
+2025-05-27 15:38:27,181 [INFO] 客户端已连接: mBQ6zWY_QT9xsWIBAAAF
+2025-05-27 15:38:42,274 [INFO] 客户端已断开连接: mBQ6zWY_QT9xsWIBAAAF
+2025-05-27 15:39:17,908 [INFO] 网络入侵检测系统启动中...
+2025-05-27 15:39:17,910 [INFO]  * Restarting with stat
+2025-05-27 15:39:19,951 [INFO] 网络入侵检测系统启动中...
+2025-05-27 15:39:19,954 [WARNING]  * Debugger is active!
+2025-05-27 15:39:19,961 [INFO]  * Debugger PIN: 135-649-420
+2025-05-27 15:39:22,378 [INFO] 客户端已连接: QKDNI-G9cvOWYyf-AAAB
+2025-05-27 15:39:24,319 [INFO] 客户端已断开连接: QKDNI-G9cvOWYyf-AAAB
+2025-05-27 15:39:24,574 [INFO] 客户端已连接: QnRnWKZOU0_p2iDvAAAD
+2025-05-27 15:39:26,217 [INFO] 客户端已断开连接: QnRnWKZOU0_p2iDvAAAD
+2025-05-27 15:39:26,401 [INFO] 客户端已连接: QnX6HteWw4MjIo1BAAAF
+2025-05-27 15:45:41,642 [INFO] 客户端已断开连接: QnX6HteWw4MjIo1BAAAF
+2025-05-27 15:45:42,321 [INFO] 客户端已连接: _FxBV8dLugOTvvBhAAAH
+2025-05-27 16:06:09,153 [INFO] 网络入侵检测系统启动中...
+2025-05-27 16:06:09,156 [INFO]  * Restarting with stat
+2025-05-27 16:06:11,189 [INFO] 网络入侵检测系统启动中...
+2025-05-27 16:06:11,191 [WARNING]  * Debugger is active!
+2025-05-27 16:06:11,197 [INFO]  * Debugger PIN: 135-649-420
+2025-05-27 16:06:11,469 [INFO] 客户端已连接: _jpqU8llV6dxa8PzAAAB
+2025-05-27 16:06:54,409 [INFO] 客户端已断开连接: _jpqU8llV6dxa8PzAAAB
+2025-05-27 16:06:55,090 [INFO] 客户端已连接: QzacrGjRmZL06f16AAAD
+2025-05-27 16:06:56,508 [INFO] 流量捕获已启动，监听接口: 所有
+2025-05-27 16:06:56,508 [INFO] 系统已启动
+2025-05-27 16:10:26,104 [INFO] 已保存流量数据到 data/traffic/traffic_20250527_161026.json，共 1000 条记录
+2025-05-27 16:10:26,122 [ERROR] 分块保存失败: [Errno 2] No such file or directory: 'data/pcap/20250527_161026_01.pcap'
+2025-05-27 16:12:55,293 [INFO] 已保存流量数据到 data/traffic/traffic_20250527_161255.json，共 1000 条记录
+2025-05-27 16:12:55,322 [ERROR] 分块保存失败: [Errno 2] No such file or directory: 'data/pcap/20250527_161255_01.pcap'
+2025-05-27 18:41:03,648 [INFO] 网络入侵检测系统启动中...
+2025-05-27 18:41:03,653 [INFO]  * Restarting with stat
+2025-05-27 18:42:17,850 [INFO] 网络入侵检测系统启动中...
+2025-05-27 18:42:17,853 [INFO]  * Restarting with stat
+2025-05-27 18:42:20,134 [INFO] 网络入侵检测系统启动中...
+2025-05-27 18:42:20,137 [WARNING]  * Debugger is active!
+2025-05-27 18:42:20,143 [INFO]  * Debugger PIN: 135-649-420
+2025-05-27 18:42:26,787 [INFO] 客户端已连接: N9d0MN1KCuCBk-aiAAAB
+2025-05-27 18:42:29,116 [INFO] 客户端已断开连接: N9d0MN1KCuCBk-aiAAAB
+2025-05-27 18:42:29,243 [INFO] 客户端已连接: MS3ilHlD73iByUnxAAAD
+2025-05-27 18:42:32,292 [INFO] 客户端已断开连接: MS3ilHlD73iByUnxAAAD
+2025-05-27 18:42:32,551 [INFO] 客户端已连接: mMSupTBS6X8vrZv8AAAF
+2025-05-27 18:42:33,633 [INFO] 流量捕获已启动，监听接口: 所有
+2025-05-27 18:42:33,633 [INFO] 系统已启动
+2025-05-27 18:42:36,823 [INFO] 已保存流量数据到 data/traffic/traffic_20250527_184236.json，共 2 条记录
+2025-05-27 18:42:36,823 [INFO] 流量捕获已停止
+2025-05-27 18:42:36,823 [INFO] 系统已停止
+2025-05-27 18:42:38,592 [INFO] 客户端已断开连接: mMSupTBS6X8vrZv8AAAF
+2025-05-27 18:42:38,724 [INFO] 客户端已连接: y6Fp1LTA5gMAmQutAAAH
+2025-05-27 18:42:45,034 [INFO] 客户端已断开连接: y6Fp1LTA5gMAmQutAAAH
+2025-05-27 18:42:45,167 [INFO] 客户端已连接: 0FkM9yZI-MhfdmquAAAJ
+2025-05-27 18:42:46,811 [INFO] 流量捕获已启动，监听接口: 所有
+2025-05-27 18:42:46,811 [INFO] 系统已启动
+2025-05-27 18:42:51,827 [INFO] 客户端已断开连接: 0FkM9yZI-MhfdmquAAAJ
+2025-05-27 18:42:52,027 [INFO] 客户端已连接: 40tun05SDg1NGD6dAAAL
+2025-05-27 18:42:56,826 [INFO] 客户端已断开连接: 40tun05SDg1NGD6dAAAL
+2025-05-27 18:42:58,988 [INFO] 已保存流量数据到 data/traffic/traffic_20250527_184258.json，共 54 条记录
+2025-05-27 18:42:58,988 [INFO] 流量捕获已停止
+2025-05-27 18:42:58,988 [INFO] 系统已停止
+2025-05-27 18:43:00,829 [INFO] 客户端已连接: Qrc1ENLQO0myD5TpAAAN
+2025-05-27 18:43:02,761 [INFO] 客户端已断开连接: Qrc1ENLQO0myD5TpAAAN
+2025-05-27 18:43:02,901 [INFO] 客户端已连接: FJC-lCXMAFaLyKqHAAAP
+2025-05-27 18:43:34,187 [INFO] 客户端已断开连接: FJC-lCXMAFaLyKqHAAAP
