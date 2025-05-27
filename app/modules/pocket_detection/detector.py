@@ -29,6 +29,7 @@ class TrafficDetector:
         self.traffic_data = []
         self.suspicious_ips = set()
         self.packet_callback = None  # 可以设置回调来处理捕获的数据包
+        self._saved_pcap_files = []
         
         # 创建保存流量数据的目录
         os.makedirs('data/traffic', exist_ok=True)
@@ -50,10 +51,10 @@ class TrafficDetector:
             self.traffic_data.append(packet_info)
             
             # 定期保存流量数据，防止内存占用过多
-            if len(self.traffic_data) >= 1000:
+            if len(self.traffic_data) >= 100:
                 self._save_traffic_data()
                 self._save_recent_pcap()
-                self.traffic_data = []
+                self.traffic_data = []   
         
         # 如果有设置回调，调用回调函数
         if self.packet_callback:
@@ -186,6 +187,7 @@ class TrafficDetector:
         """保存流量数据到文件"""
         try:
             timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+            os.makedirs('data/traffic', exist_ok=True)
             filename = f'data/traffic/traffic_{timestamp}.json'
             with open(filename, 'w') as f:
                 json.dump(self.traffic_data, f)
@@ -193,7 +195,7 @@ class TrafficDetector:
         except Exception as e:
             logger.error(f"保存流量数据失败: {str(e)}")
     
-    def _save_recent_pcap(self, total=1000, chunk_size=100):
+    def _save_recent_pcap(self, total=100, chunk_size=100):
         """将前total个数据包按chunk_size分块保存为多个PCAP文件
         
         Args:
@@ -205,6 +207,8 @@ class TrafficDetector:
             with threading.Lock():
                 target_data = self.traffic_data[:total].copy()
             
+            os.makedirs('data/pcap', exist_ok=True)
+
             # 计算分块数量
             num_chunks = len(target_data) // chunk_size + (1 if len(target_data) % chunk_size else 0)
             saved_files = []
@@ -217,7 +221,10 @@ class TrafficDetector:
                 chunk = target_data[start:end]
 
                 # 生成文件名
-                filename = f'data/pcap/{timestamp}_{i+1:02d}.pcap'
+                if num_chunks>1:
+                    filename = f'data/pcap/{timestamp}_{i+1:02d}.pcap'
+                else :
+                    filename = f'data/pcap/{timestamp}.pcap'
 
                 # 重建数据包
                 packets = []
@@ -236,6 +243,8 @@ class TrafficDetector:
                         "time_range": f"{chunk[0]['timestamp']} - {chunk[-1]['timestamp']}"
                     })
                     logger.info(f"成功保存 {filename} ({len(packets)} 个数据包)")
+
+            self._saved_pcap_files.append(saved_files[filename])
 
             return {
                 "total_packets": len(target_data),
@@ -287,7 +296,10 @@ class TrafficDetector:
             return self.traffic_data[-limit:]
         else:
             return self.traffic_data
-
+    
+    def get_pcapfiles(self):
+        """返回pcap文件路径的列表"""
+        return self._saved_pcap_files
 
 # 用于测试
 if __name__ == "__main__":
