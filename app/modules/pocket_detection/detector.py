@@ -39,7 +39,7 @@ class TrafficDetector:
         self.packet_callback = callback
     
     def process_packet(self, packet):
-        """处理捕获的数据包"""
+        """"""
         # 更新计数
         #self.packet_stats['total'] += 1
         
@@ -219,6 +219,7 @@ class TrafficDetector:
                 start = i * chunk_size
                 end = start + chunk_size
                 chunk = target_data[start:end]
+                filename =''
 
                 # 生成文件名
                 if num_chunks>1:
@@ -245,6 +246,7 @@ class TrafficDetector:
                     logger.info(f"成功保存 {filename} ({len(packets)} 个数据包)")
 
                 self._saved_pcap_files.append(filename)
+                print(self._saved_pcap_files)
 
             return {
                 "total_packets": len(target_data),
