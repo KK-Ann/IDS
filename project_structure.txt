@@ -1,0 +1,30 @@
+IDS/
+├── app/                              # 主应用模块
+│   ├── app.py                   # Flask应用入口
+│   ├── test.py                  # 测试脚本
+│   ├── model/                   # 机器学习模型
+│   │   ├── preprocessing_pipeline.pkl
+│   │   ├── randomforest_model.pkl
+│   │   └── train/                  # 模型训练相关
+│   │       ├── main.py          # 训练代码
+│   │       ├── merge_data.py
+│   │       └── requirements.txt
+│   ├── modules/                          # 核心功能模块
+│   │   ├── pocket_detection/     # 数据包捕获模块
+│   │   │   └── detector.py
+│   │   └── threat_find/            # 威胁发现模块
+│   │       ├── flow_feature/     # 数据包整合为流量，提取流量特征
+│   │       │    ├──  BasicFlow.py BasicPacketInfo.py  
+│   │       │    └── FlowFeature.py FlowGenerator.py PacketReader.py utils.py
+│   │       └── ThreatFind.py   # 整合流量特征提取和威胁检测
+│   ├── templates/                   # 前端界面
+│   │   ├── index.html           # 主页
+│   │   ├── intrusion_detection.html # 威胁检测页面
+│   │   ├── logs.html           # 日志页面
+│   │   └── network_monitor.html # 数据包捕获页面
+│   └── 测试用例/                # 存放一些测试数据
+│       ├── test.pcap
+│       └── .......
+├── data/                        # 运行时存储的数据文件
+├── requirements.txt            # Python依赖库
+└── venv/                       # 虚拟环境目录

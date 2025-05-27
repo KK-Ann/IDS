@@ -27,7 +27,14 @@ class ThreatFind(object):
             self.label_encoder = pipe['label_encoder']
             print("Available threat classes:", self.get_threat_classes())
         self.model = joblib.load(model_path)
-        # 添加威胁类型映射字典
+       # 协议映射字典
+        self.protocol_mapping = {
+            1: 'ICMP',
+            6: 'TCP',
+            17: 'UDP',
+            0: 'Unknown'
+        }
+        # 威胁类型映射字典
         self.threat_mapping = {
             'BENIGN': '正常流量',
             'Bot': '僵尸网络',
@@ -43,7 +50,7 @@ class ThreatFind(object):
             'SSH-Patator': 'SSH暴力破解'
         }
         
-        # 添加威胁等级映射
+        # 威胁等级映射
         self.severity_mapping = {
             'BENIGN': '低',
             'PortScan': '中',
@@ -90,7 +97,7 @@ class ThreatFind(object):
                 'Dst IP': feature.get('Destination IP', ''),
                 'Src Port': int(feature.get('Source Port', 0)),
                 'Dst Port': int(feature.get('Destination Port', 0)),
-                'Protocol': int(feature.get('Protocol', 0)),
+                'Protocol': self.protocol_mapping.get(int(feature.get('Protocol', 0)), 'Unknown'),
                 'Fwd Pkts/s': int(feature.get('Fwd Packets/s', 0)),
                 'Bwd Pkts/s': int(feature.get('Bwd Packets/s', 0)),
                 'Total Length of Fwd Packets': int(feature.get('Total Length of Fwd Packets', 0)),
@@ -112,7 +119,7 @@ class ThreatFind(object):
                 'Dst IP': feature.get('Destination IP', ''),
                 'Src Port': int(feature.get('Source Port', 0)),
                 'Dst Port': int(feature.get('Destination Port', 0)),
-                'Protocol': int(feature.get('Protocol', 0)),
+                'Protocol': self.protocol_mapping.get(int(feature.get('Protocol', 0)), 'Unknown'),
                 'Fwd Pkts/s': int(feature.get('Fwd Packets/s', 0)),
                 'Bwd Pkts/s': int(feature.get('Bwd Packets/s', 0)),
                 'Total Length of Fwd Packets': int(feature.get('Total Length of Fwd Packets', 0)),
@@ -183,7 +190,7 @@ class ThreatFind(object):
                 "original_type": threat_type  # 保留原始类型名称
             })
         return results
-        
+
     def parse_csv(self, file):
         df = pd.read_csv(file)
         print("CSV 文件的真实列名:", df.columns.tolist())
@@ -213,7 +220,7 @@ class ThreatFind(object):
                 'Dst IP': feature.get('Destination IP', ''),
                 'Src Port': int(feature.get('Source Port', 0)),
                 'Dst Port': int(feature.get('Destination Port', 0)),
-                'Protocol': int(feature.get('Protocol', 0)),
+                'Protocol': self.protocol_mapping.get(int(feature.get('Protocol', 0)), 'Unknown'),
                 'Fwd Pkts/s': int(feature.get('Fwd Packets/s', 0)),
                 'Bwd Pkts/s': int(feature.get('Bwd Packets/s', 0)),
                 'Total Length of Fwd Packets': int(feature.get('Total Length of Fwd Packets', 0)),
