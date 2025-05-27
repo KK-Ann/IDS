@@ -1,0 +1,9 @@
+# 核心依赖
+scikit-learn>=1.0.2
+imbalanced-learn>=0.8.0
+pandas>=1.3.5
+numpy>=1.21.0
+joblib>=1.2.0
+
+# 环境管理
+python>=3.7
