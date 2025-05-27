@@ -5,99 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c7cd623e-2800-4d2e-979b-479e215e11e7" name="Changes" comment="综合修改，快完了">
-      <change afterPath="$PROJECT_DIR$/app/model/preprocessing_pipeline.pkl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/model/randomforest_model.pkl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/model/train/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/model/train/mergeData.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/modules/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/modules/pocket_detection/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/modules/pocket_detection/detector.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/modules/threat_find/ThreatFind.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/modules/threat_find/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/modules/threat_find/flow_feature/BasicFlow.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/modules/threat_find/flow_feature/BasicPacketInfo.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/modules/threat_find/flow_feature/FlowFeature.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/modules/threat_find/flow_feature/FlowGenerator.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/modules/threat_find/flow_feature/PacketReader.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/modules/threat_find/flow_feature/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/modules/threat_find/flow_feature/payload.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/modules/threat_find/flow_feature/utils.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/modules/threat_find/monitor.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/modules/threat_find/optimized_rf_model.pkl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/modules/threat_find/preprocessing_pipeline.pkl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/modules/threat_find/test.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/modules/threat_find/test2.pcap" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/modules/threat_find/test3.pcap" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/test.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/test.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/test2.pcap" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/threats.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/app.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/data/ids_system.log" beforeDir="false" afterPath="$PROJECT_DIR$/app/data/ids_system.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/modules/alert_response/alerter.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/modules/alert_response/data/alerts/alerts_20250322_235230.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/modules/alert_response/data/alerts/alerts_20250322_235340.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/modules/intrusion_prevention/prevention.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/modules/network_monitoring/monitor.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/modules/traffic_detection/detector.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/static/css/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/app/static/css/main.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/dashboard.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/intrusion_detection.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/intrusion_detection.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/logs.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/logs.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/network_monitor.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/network_monitor.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/settings.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/ids_system.log" beforeDir="false" afterPath="$PROJECT_DIR$/data/ids_system.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/monitoring/monitoring_20250523_173424.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/monitoring/monitoring_20250523_173425.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/monitoring/monitoring_20250523_173426.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/monitoring/monitoring_20250523_173427.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/monitoring/monitoring_20250523_173428.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/monitoring/monitoring_20250523_173429.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/monitoring/monitoring_20250523_173430.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/monitoring/monitoring_20250523_173431.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/monitoring/monitoring_20250523_173432.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/monitoring/monitoring_20250523_173433.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/monitoring/monitoring_20250523_173434.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/monitoring/monitoring_20250523_173435.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/monitoring/monitoring_20250523_173436.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/monitoring/monitoring_20250523_173437.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/monitoring/monitoring_20250523_173438.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/monitoring/monitoring_20250523_173439.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/monitoring/monitoring_20250523_173440.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/monitoring/monitoring_20250523_173441.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/monitoring/monitoring_20250523_173442.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/monitoring/monitoring_20250523_173443.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/monitoring/monitoring_20250523_173444.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/monitoring/monitoring_20250523_173445.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/monitoring/monitoring_20250523_173446.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/monitoring/monitoring_20250523_173447.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/monitoring/monitoring_20250523_173448.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/monitoring/monitoring_20250523_173449.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/monitoring/monitoring_20250523_173450.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/monitoring/monitoring_20250523_173451.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/monitoring/monitoring_20250523_173452.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/monitoring/monitoring_20250523_173453.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/monitoring/monitoring_20250523_173454.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/monitoring/monitoring_20250523_173455.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/monitoring/monitoring_20250523_173456.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/monitoring/monitoring_20250523_173457.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/monitoring/monitoring_20250523_173458.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/monitoring/monitoring_20250523_173459.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/monitoring/monitoring_20250523_173500.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/monitoring/monitoring_20250523_173501.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/monitoring/monitoring_20250523_173502.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/monitoring/monitoring_20250523_173503.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/monitoring/monitoring_20250523_173504.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/monitoring/monitoring_20250523_173505.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/monitoring/monitoring_20250523_173506.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/monitoring/monitoring_20250523_173507.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/monitoring/monitoring_20250523_173508.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/monitoring/monitoring_20250523_173509.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/monitoring/monitoring_20250523_173510.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/monitoring/monitoring_20250523_173511.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/monitoring/monitoring_20250523_173512.json" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -250,7 +158,7 @@
       <workItem from="1748253996966" duration="7507000" />
       <workItem from="1748267343446" duration="2988000" />
       <workItem from="1748276300228" duration="6512000" />
-      <workItem from="1748283877252" duration="4994000" />
+      <workItem from="1748283877252" duration="5108000" />
     </task>
     <task id="LOCAL-00001" summary="环境修复">
       <option name="closed" value="true" />
@@ -300,7 +208,15 @@
       <option name="project" value="LOCAL" />
       <updated>1748087663545</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="综合修改，快完了">
+      <option name="closed" value="true" />
+      <created>1748289056428</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1748289056428</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -330,7 +246,7 @@
     <SUITE FILE_PATH="coverage/ids$pcapFeature.coverage" NAME="pcapFeature Coverage Results" MODIFIED="1748267879243" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/app/modules/network_monitoring" />
     <SUITE FILE_PATH="coverage/ids$ThreatFind.coverage" NAME="ThreatFind Coverage Results" MODIFIED="1748274707923" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/app/modules/threat_find" />
     <SUITE FILE_PATH="coverage/ids$detector.coverage" NAME="detector Coverage Results" MODIFIED="1748277979481" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/app/modules/pocket_detection" />
-    <SUITE FILE_PATH="coverage/ids$app.coverage" NAME="app Coverage Results" MODIFIED="1748288513340" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/app" />
+    <SUITE FILE_PATH="coverage/ids$app.coverage" NAME="app Coverage Results" MODIFIED="1748289073288" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/app" />
     <SUITE FILE_PATH="coverage/ids$monitor.coverage" NAME="monitor Coverage Results" MODIFIED="1748082275549" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/app/modules/network_monitoring" />
     <SUITE FILE_PATH="coverage/ids$main.coverage" NAME="main Coverage Results" MODIFIED="1748188726056" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/app/modules/network_monitoring" />
     <SUITE FILE_PATH="coverage/ids$PacketReader.coverage" NAME="PacketReader Coverage Results" MODIFIED="1748261813448" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/app/modules/network_monitoring" />

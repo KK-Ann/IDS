@@ -36,82 +36,7 @@
         </div>
     </nav>
 
-    <!-- <div class="container mt-4">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card mb-4">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">攻击日志</h5>
-                        <div>
-                            <div class="input-group input-group-sm">
-                                <input type="text" id="searchInput" class="form-control" placeholder="搜索日志...">
-                                <button class="btn btn-outline-secondary" type="button" id="searchBtn">
-                                    <i class="fa fa-search"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="row mb-3">
-                            <div class="col-md-8">
-                                <div class="btn-group btn-group-sm" role="group">
-                                    <button type="button" class="btn btn-outline-secondary filter-btn active" data-filter="all">所有</button>
-                                    <button type="button" class="btn btn-outline-danger filter-btn" data-filter="高">高危</button>
-                                    <button type="button" class="btn btn-outline-warning filter-btn" data-filter="中">中危</button>
-                                    <button type="button" class="btn btn-outline-info filter-btn" data-filter="低">低危</button>
-                                </div>
-                            </div>
-                            <div class="col-md-4 text-end">
-                                <div class="btn-group btn-group-sm" role="group">
-                                    <button type="button" class="btn btn-outline-secondary sort-btn active" data-sort="newest">最新</button>
-                                    <button type="button" class="btn btn-outline-secondary sort-btn" data-sort="oldest">最早</button>
-                                </div>
-                                <button class="btn btn-sm btn-outline-secondary ms-2" id="refreshBtn">
-                                    <i class="fa fa-refresh"></i>
-                                </button>
-                            </div>
-                        </div>
-
-                        <div class="table-responsive">
-                            <table class="table table-hover table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>时间</th>
-                                        <th>类型</th>
-                                        <th>严重程度</th>
-                                        <th>源IP</th>
-                                        <th>目标IP</th>
-                                        <th>操作</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="logTable">
-                                    <tr>
-                                        <td colspan="6" class="text-center">
-                                            <i class="fa fa-spin fa-spinner"></i> 加载日志数据...
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-
-                        <div class="d-flex justify-content-between align-items-center mt-3">
-                            <div>
-                                显示 <span id="logCount">0</span> 条日志，共 <span id="totalLogs">0</span> 条
-                            </div>
-                            <div>
-                                <button class="btn btn-sm btn-outline-secondary" id="prevBtn" disabled>
-                                    <i class="fa fa-chevron-left"></i> 上一页
-                                </button>
-                                <span class="mx-2">第 <span id="currentPage">1</span> 页</span>
-                                <button class="btn btn-sm btn-outline-secondary" id="nextBtn" disabled>
-                                    下一页 <i class="fa fa-chevron-right"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> -->
+    
 
         <div class="row">
             <div class="col-md-12">
@@ -136,35 +61,91 @@
         </div>
     </div>
 
-    <!-- 日志详情模态框 -->
-    <div class="modal fade" id="logModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">日志详情</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body" id="logDetails">
-                    <!-- 日志详情内容将通过JavaScript插入 -->
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" id="blockIPBtn">阻止IP</button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">关闭</button>
-                </div>
-            </div>
-        </div>
-    </div>
+   
 
-    <footer class="footer mt-5 py-3 bg-dark text-white">
-        <div class="container text-center">
-            <p>&copy; 2025 网络入侵检测与防御系统 | 版本 Peng_Test</p>
-        </div>
-    </footer>
+    
 
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/socket.io-client@4.4.0/dist/socket.io.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script>
-    <script src="{{ url_for('static', filename='js/logs.js') }}"></script>
+    <script >
+        // 日志页面JavaScript文件
+        $(document).ready(function() {
+            // 连接WebSocket
+            const socket = io();
+            
+            let logs = [];
+            let filteredLogs = [];
+            let currentPage = 1;
+            let logsPerPage = 20;
+            let currentFilter = 'all';
+            let currentSort = 'newest';
+            
+            // 初始化
+            init();
+            
+            function init() {
+                // 加载日志数据
+                loadLogs();
+                
+                // 设置按钮事件
+                setupEventHandlers();
+                
+                // 设置WebSocket监听
+                setupSocketEvents();
+                
+                // 添加系统事件
+                addSystemEvent('信息', '日志页面已加载');
+            }
+            
+            // 加载日志数据
+            function loadLogs() {
+                $.get('/api/logs', function(data) {
+                    logs = data.logs || [];
+                    applyFilterAndSort();
+                    renderLogs();
+                    
+                    $('#totalLogs').text(logs.length);
+                }).fail(function() {
+                    $('#logTable').html('<tr><td colspan="6" class="text-center text-danger">加载日志失败</td></tr>');
+                });
+            }
+            
+            // 添加系统事件
+            function addSystemEvent(type, message) {
+                const time = moment().format('HH:mm:ss');
+                const typeClass = type.toLowerCase();
+                
+                const eventHtml = `<div class="event-item">
+                    <div class="event-time">${time}</div>
+                    <div class="event-type ${typeClass}">${type}</div>
+                    <div class="event-message">${message}</div>
+                </div>`;
+                
+                $('#systemEvents').prepend(eventHtml);
+                
+                // 限制显示的事件数量
+                const maxEvents = 100;
+                if ($('#systemEvents .event-item').length > maxEvents) {
+                    $('#systemEvents .event-item').slice(maxEvents).remove();
+                }
+            }
+            
+            
+            
+            
+            // 设置WebSocket事件
+            function setupSocketEvents() {
+                socket.on('connect', function() {
+                    addSystemEvent('信息', '已连接到服务器');
+                });
+                
+                socket.on('disconnect', function() {
+                    addSystemEvent('警告', '与服务器的连接已断开');
+                });
+            }
+        }); 
+    </script>
 </body>
 </html>
