@@ -88,11 +88,9 @@
                                 <thead>
                                     <tr>
                                         <th>时间</th>
-                                        <th>源IP</th>
-                                        <th>源IP归属地</th>
+                                        <th>源IP</th>                                        
                                         <th>源端口</th>
                                         <th>目的IP</th>
-                                        <th>目的IP归属地</th>
                                         <th>目的端口</th>
                                         <th>协议</th>
                                         <th>数据包大小</th>
@@ -403,11 +401,9 @@
                     const row = $(`
                         <tr data-packet='${JSON.stringify(packet).replace(/'/g, "\\'")}'>
                             <td>${moment(packet.timestamp).format('YYYY-MM-DD HH:mm:ss')}</td>
-                            <td>${packet.src_ip}</td>
-                            <td>${packet.src_location || '未知'}</td>
+                            <td>${packet.src_ip}</td>                            
                             <td>${packet.src_port}</td>
                             <td>${packet.dst_ip}</td>
-                            <td>${packet.dst_location || '未知'}</td>
                             <td>${packet.dst_port}</td>
                             <td>${packet.protocol}</td>
                             <td>${formatBytes(packet.size)}</td>
