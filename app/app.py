@@ -10,11 +10,9 @@ from flask_socketio import SocketIO
 
 # 导入自定义模块
 from modules.pocket_detection.detector import TrafficDetector as PocketDetector
-# from modules.intrusion_prevention.prevention import IntrusionPrevention
-# from modules.alert_response.alerter import AlertSystem
-# from modules.network_monitoring.monitor import NetworkMonitor
 from modules.threat_find.ThreatFind import ThreatFind
 import os
+import sys
 
 # 创建 data 文件夹（如果不存在）
 os.makedirs('data', exist_ok=True)
@@ -38,11 +36,16 @@ socketio = SocketIO(app)
 os.makedirs('data', exist_ok=True)
 
 # 初始化系统模块
+def resource_path(relative_path):
+    """获取 PyInstaller 打包后资源路径"""
+    if hasattr(sys, '_MEIPASS'):
+        return os.path.join(sys._MEIPASS, relative_path)
+    return os.path.join(os.path.abspath("."), relative_path)
+
+model_path = resource_path("model/randomforest_model.pkl")
+pipeline_path = resource_path("model/preprocessing_pipeline.pkl")
 pocket_detector = PocketDetector()
-#intrusion_prevention = IntrusionPrevention()
-#alert_system = AlertSystem()
-# network_monitor = NetworkMonitor(socketio)
-flow_feature = ThreatFind("test2.pcap",socketio,"model/randomforest_model.pkl","model/preprocessing_pipeline.pkl")
+flow_feature = ThreatFind(None, socketio, model_path, pipeline_path)
 
 # 管理系统状态
 system_status = {
@@ -88,10 +91,7 @@ def start_system():
 
         # 启动各个模块
         threading.Thread(target=pocket_detector.start_capture).start()
-        #threading.Thread(target=intrusion_prevention.start_prevention).start()
-        #threading.Thread(target=alert_system.start_alerting).start()
-        # threading.Thread(target=network_monitor.start_monitoring).start()
-        threading.Thread(target=flow_feature.start_extract).start()
+        # threading.Thread(target=flow_feature.start_extract).start()
         logger.info("系统已启动")
         return jsonify({'success': True, 'message': '系统已启动'})
 
@@ -105,12 +105,15 @@ def stop_system():
 
         # 停止各个模块
         pocket_detector.stop_capture()
-
-
+        files = pocket_detector.get_pcapfiles()
+        # print("打印文件",files)
+        if len(files) == 0:
+            return jsonify({'success': True,'warning':True,'message':'还未捕获到足够的包，无法进行威胁分析'})
+        flow_feature.start_extract(files)
         logger.info("系统已停止")
-        return jsonify({'success': True, 'message': '系统已停止'})
+        return jsonify({'success': True,'warning':False, 'message': '系统已停止'})
 
-    return jsonify({'success': False, 'message': '系统未运行'})
+    return jsonify({'success': False, 'warning':False, 'message': '系统未运行'})
 # 捕获数据包
 @app.route('/api/protocol_stats')
 def get_protocol_stats():
@@ -134,7 +137,7 @@ def detect_protocols():
 # 流量统计和威胁
 @app.route('/api/flow_features')
 def get_flow_features():
-
+   # print("get发特征数据")
     return jsonify({"features":flow_feature.getFeatures()})
 
 @app.route('/api/analyze_file', methods=['POST'])
@@ -142,7 +145,7 @@ def analyze_file():
     try:
         # 从请求表单中获取数据
         file_path = request.form.get('file_path')
-        print(file_path)
+        # print(file_path)
         # 检查必填字段是否存在
         if not file_path :
             return jsonify({
@@ -186,10 +189,12 @@ def handle_disconnect():
     logger.info(f"客户端已断开连接: {request.sid}")
 
 
+
+
 # 主函数
 if __name__ == '__main__':
     try:
         logger.info("网络入侵检测系统启动中...")
-        socketio.run(app, host='127.0.0.1', port=8080, debug=True)
+        socketio.run(app, host='127.0.0.1', port=8080, debug=True) # 打包/运行main.py时把debug去掉！！！
     except Exception as e:
         logger.error(f"系统启动失败: {str(e)}")

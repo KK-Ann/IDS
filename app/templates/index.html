@@ -204,6 +204,8 @@
                 $.post('/api/stop', function(response) {
                     if (response.success) {
                         getSystemStatus();
+                        if(response.warning)
+                            alert(response.message);
                     } else {
                         alert('停止系统失败: ' + response.message);
                     }

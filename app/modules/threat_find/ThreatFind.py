@@ -6,6 +6,7 @@ from .flow_feature.FlowGenerator import FlowGenerator
 from .flow_feature.FlowFeature import *
 import joblib
 import pickle
+import os
 from datetime import datetime
 
 class ThreatFind(object):
@@ -25,7 +26,7 @@ class ThreatFind(object):
             self.scaler = pipe['scaler']
             self.pca = pipe['pca']
             self.label_encoder = pipe['label_encoder']
-            print("Available threat classes:", self.get_threat_classes())
+            # print("Available threat classes:", self.get_threat_classes())
         self.model = joblib.load(model_path)
        # 协议映射字典
         self.protocol_mapping = {
@@ -74,17 +75,21 @@ class ThreatFind(object):
     def extractFeature(self,pcap_file=None):
         if pcap_file != None :
             self.file_path=pcap_file
+        print("分析的pcap文件:", self.file_path)
         packetReader = PacketReader(self.file_path)
         flowGenerator = FlowGenerator(self.flowTimeout, self.activityTimeout, self.subFlowTimeout, self.bulkTimeout)
 
         basicPacket = packetReader.nextPacket()
         if basicPacket == None:
-            print("None")
+            print("无可计算包")
         while basicPacket != None:
             flowGenerator.addPacket(basicPacket)
             basicPacket = packetReader.nextPacket()
         flowGenerator.clearFlow()
-        flowGenerator.dumpFeatureToCSV("data/test.csv") # 保存到csv中
+        os.makedirs('data/flow_features', exist_ok=True)
+        csv_filename = os.path.basename(self.file_path).rsplit('.', 1)[0] + '.csv'
+        save_file = os.path.join('data/flow_features', csv_filename)
+        flowGenerator.dumpFeatureToCSV(save_file)  # 保存到csv中
         self.features_dict=flowGenerator.get_features_dict() # 得到得时一个数组，数组中得每一项是字典
 
         # return flowGenerator.get_features_dict()
@@ -98,8 +103,8 @@ class ThreatFind(object):
                 'Src Port': int(feature.get('Source Port', 0)),
                 'Dst Port': int(feature.get('Destination Port', 0)),
                 'Protocol': self.protocol_mapping.get(int(feature.get('Protocol', 0)), 'Unknown'),
-                'Fwd Pkts/s': int(feature.get('Fwd Packets/s', 0)),
-                'Bwd Pkts/s': int(feature.get('Bwd Packets/s', 0)),
+                'Fwd Pkts': int(feature.get('Total Fwd Packets', 0)),  # 修改为前向包个数
+                'Bwd Pkts': int(feature.get('Total Backward Packets', 0)),  # 修改为后向包个数
                 'Total Length of Fwd Packets': int(feature.get('Total Length of Fwd Packets', 0)),
                 'Total Length of Bwd Packets': int(feature.get('Total Length of Bwd Packets', 0)),
                 'Flow Duration(ms)': float(feature.get('Flow Duration', 0)),
@@ -114,14 +119,15 @@ class ThreatFind(object):
         # 筛选关键字段并转换numpy类型
         selected_features = []
         for feature in self.features_dict:
-            filtered = {
+            flow_duration = float(feature.get('Flow Duration', "unknown"))
+            filtered = {                
                 'Src IP': feature.get('Source IP', ''),
                 'Dst IP': feature.get('Destination IP', ''),
                 'Src Port': int(feature.get('Source Port', 0)),
                 'Dst Port': int(feature.get('Destination Port', 0)),
                 'Protocol': self.protocol_mapping.get(int(feature.get('Protocol', 0)), 'Unknown'),
-                'Fwd Pkts/s': int(feature.get('Fwd Packets/s', 0)),
-                'Bwd Pkts/s': int(feature.get('Bwd Packets/s', 0)),
+                'Fwd Pkts': int(feature.get('Total Fwd Packets', 0)),  # 修改为前向包个数
+                'Bwd Pkts': int(feature.get('Total Backward Packets', 0)),  # 修改为后向包个数
                 'Total Length of Fwd Packets': int(feature.get('Total Length of Fwd Packets', 0)),
                 'Total Length of Bwd Packets': int(feature.get('Total Length of Bwd Packets', 0)),
                 'Flow Duration(ms)': float(feature.get('Flow Duration', 0)),
@@ -139,12 +145,17 @@ class ThreatFind(object):
 
         return selected_features
 
-    def start_extract(self,pcap_file=None):
+    def start_extract(self,files=None):
+        # print(files)
         self.features_dict = []  # 清空特征字典列表
-        if pcap_file !=None :
-            self.file_path=pcap_file
-        self.extractFeature()
-        if pcap_file is None:
+        pcaps_features = []
+        if files != None :
+            for file in files:
+                # print(file)
+                self.extractFeature(file)
+                pcaps_features.extend(self.features_dict)
+            self.features_dict = pcaps_features
+           # print(self.features_dict)
             self.emitFeature()
 
     def predictThreat(self):
@@ -185,6 +196,8 @@ class ThreatFind(object):
             results.append({
                 "threat_type": self.threat_mapping.get(threat_type, threat_type),  # 获取中文名称，如果没有映射则使用原名
                 "src_ip": id_info.iloc[i]["Source IP"] if "Source IP" in id_info.columns else "unknown",
+                "src_port": df.iloc[i]["Source Port"] if "Source Port" in df.columns else "unknown",  # 从 df 中获取
+                "dst_port": df.iloc[i]["Destination Port"] if "Destination Port" in df.columns else "unknown",  # 从 df 中获取                "dst_ip": id_info.iloc[i]["Destination IP"] if "Destination IP" in id_info.columns else "unknown",
                 "dst_ip": id_info.iloc[i]["Destination IP"] if "Destination IP" in id_info.columns else "unknown",
                 "severity": self.severity_mapping.get(threat_type, '未知'),  # 获取威胁等级
                 "original_type": threat_type  # 保留原始类型名称
@@ -193,7 +206,7 @@ class ThreatFind(object):
 
     def parse_csv(self, file):
         df = pd.read_csv(file)
-        print("CSV 文件的真实列名:", df.columns.tolist())
+        # print("CSV 文件的真实列名:", df.columns.tolist())
         df.columns = df.columns.str.strip()
         # 检查是否有重复列名
         duplicated_cols = df.columns[df.columns.duplicated()]
@@ -221,8 +234,8 @@ class ThreatFind(object):
                 'Src Port': int(feature.get('Source Port', 0)),
                 'Dst Port': int(feature.get('Destination Port', 0)),
                 'Protocol': self.protocol_mapping.get(int(feature.get('Protocol', 0)), 'Unknown'),
-                'Fwd Pkts/s': int(feature.get('Fwd Packets/s', 0)),
-                'Bwd Pkts/s': int(feature.get('Bwd Packets/s', 0)),
+                'Fwd Pkts': int(feature.get('Total Fwd Packets', 0)),  # 修改为前向包个数
+                'Bwd Pkts': int(feature.get('Total Backward Packets', 0)),  # 修改为后向包个数
                 'Total Length of Fwd Packets': int(feature.get('Total Length of Fwd Packets', 0)),
                 'Total Length of Bwd Packets': int(feature.get('Total Length of Bwd Packets', 0)),
                 'Flow Duration(ms)': float(feature.get('Flow Duration', 0)),

@@ -14,7 +14,7 @@ IDS/
 │   │   │   └── detector.py
 │   │   └── threat_find/            # 威胁发现模块
 │   │       ├── flow_feature/     # 数据包整合为流量，提取流量特征
-│   │       │    ├──  BasicFlow.py BasicPacketInfo.py  
+│   │       │    ├──  BasicFlow.py BasicPacketInfo.py
 │   │       │    └── FlowFeature.py FlowGenerator.py PacketReader.py utils.py
 │   │       └── ThreatFind.py   # 整合流量特征提取和威胁检测
 │   ├── templates/                   # 前端界面

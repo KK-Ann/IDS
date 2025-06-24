@@ -89,10 +89,10 @@
                                     <tr>
                                         <th>时间</th>
                                         <th>源IP</th>
-                                        <th>源IP归属地</th>
+
                                         <th>源端口</th>
                                         <th>目的IP</th>
-                                        <th>目的IP归属地</th>
+
                                         <th>目的端口</th>
                                         <th>协议</th>
                                         <th>数据包大小</th>
@@ -241,19 +241,7 @@
                 socket.on('disconnect', function () {
                     console.log('Socket.IO disconnected');
                     updateSystemStatus(false);
-                });
-                socket.on('Protocol_stats', function (data) {
-                    updateProtocolChart(data);
-                });
-
-                socket.on('packets', function (data) {
-                    updatePacketTable(data);
-                });
-
-                // 处理状态更新
-                socket.on('status_update', function (data) {
-                    updateSystemStatus(true, data.is_running);
-                });
+                });                
             }
 
             // 格式化字节大小
@@ -304,8 +292,8 @@
             // 获取初始数据
             function fetchInitialData() {
                 fetchData();
-                // 设置定时刷新 (每10秒刷新一次)
-                setInterval(fetchData, 10000);
+                // 设置定时刷新 (每1秒刷新一次)
+                setInterval(fetchData, 1000);
             }
 
             // 更新协议分布图表
@@ -319,18 +307,6 @@
                 if (data) {
                     protocolLabels = Object.keys(data);
                     protocolCounts = Object.values(data);
-                } else {
-                    // 模拟数据
-                    protocolLabels = ['TCP', 'UDP', 'HTTP', 'HTTPS', 'ICMP', 'DNS', 'Other'];
-                    protocolCounts = [
-                        Math.floor(Math.random() * 500) + 100,
-                        Math.floor(Math.random() * 300) + 50,
-                        Math.floor(Math.random() * 200) + 100,
-                        Math.floor(Math.random() * 150) + 80,
-                        Math.floor(Math.random() * 50) + 10,
-                        Math.floor(Math.random() * 100) + 50,
-                        Math.floor(Math.random() * 30) + 5
-                    ];
                 }
 
                 // 更新图表数据
@@ -404,10 +380,8 @@
                         <tr data-packet='${JSON.stringify(packet).replace(/'/g, "\\'")}'>
                             <td>${moment(packet.timestamp).format('YYYY-MM-DD HH:mm:ss')}</td>
                             <td>${packet.src_ip}</td>
-                            <td>${packet.src_location || '未知'}</td>
                             <td>${packet.src_port}</td>
                             <td>${packet.dst_ip}</td>
-                            <td>${packet.dst_location || '未知'}</td>
                             <td>${packet.dst_port}</td>
                             <td>${packet.protocol}</td>
                             <td>${formatBytes(packet.size)}</td>

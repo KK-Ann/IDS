@@ -84,13 +84,15 @@
             
             // 初始化
             init();
+                   
+
+            // 清除事件按钮点击事件
+            $('#clearEvents').click(function () {
+                $('#systemEvents').empty();
+                addSystemEvent('信息', '已清除所有系统事件');
+            });
             
             function init() {
-                // 加载日志数据
-                loadLogs();
-                
-                // 设置按钮事件
-                setupEventHandlers();
                 
                 // 设置WebSocket监听
                 setupSocketEvents();
@@ -99,27 +101,16 @@
                 addSystemEvent('信息', '日志页面已加载');
             }
             
-            // 加载日志数据
-            function loadLogs() {
-                $.get('/api/logs', function(data) {
-                    logs = data.logs || [];
-                    applyFilterAndSort();
-                    renderLogs();
-                    
-                    $('#totalLogs').text(logs.length);
-                }).fail(function() {
-                    $('#logTable').html('<tr><td colspan="6" class="text-center text-danger">加载日志失败</td></tr>');
-                });
-            }
+            
             
             // 添加系统事件
             function addSystemEvent(type, message) {
                 const time = moment().format('HH:mm:ss');
-                const typeClass = type.toLowerCase();
+                //const typeClass = type.toLowerCase();
                 
                 const eventHtml = `<div class="event-item">
                     <div class="event-time">${time}</div>
-                    <div class="event-type ${typeClass}">${type}</div>
+                    <div class="event-type info">${type}</div>
                     <div class="event-message">${message}</div>
                 </div>`;
                 

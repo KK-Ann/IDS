@@ -4,15 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c7cd623e-2800-4d2e-979b-479e215e11e7" name="Changes" comment="调整文件结构">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/data/ids_system.log" beforeDir="false" afterPath="$PROJECT_DIR$/app/data/ids_system.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/model/train/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/model/train/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/modules/threat_find/ThreatFind.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/modules/threat_find/ThreatFind.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/ids_system.log" beforeDir="false" />
-    </list>
+    <list default="true" id="c7cd623e-2800-4d2e-979b-479e215e11e7" name="Changes" comment="调整readme" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -39,6 +31,9 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/app/templates/network_monitor.html" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 1
 }</component>
@@ -53,6 +48,7 @@
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;Python.FlowFeature.executor&quot;: &quot;Run&quot;,
     &quot;Python.PacketReader.executor&quot;: &quot;Run&quot;,
     &quot;Python.ThreatFind.executor&quot;: &quot;Run&quot;,
     &quot;Python.app.executor&quot;: &quot;Run&quot;,
@@ -120,6 +116,29 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="ids" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/app" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/app/main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="pcapFeature" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="ids" />
       <option name="ENV_FILES" value="" />
@@ -146,6 +165,7 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.app" />
+        <item itemvalue="Python.main" />
         <item itemvalue="Python.detector" />
         <item itemvalue="Python.pcapFeature" />
       </list>
@@ -179,6 +199,15 @@
       <workItem from="1748283877252" duration="5108000" />
       <workItem from="1748312331362" duration="8304000" />
       <workItem from="1748338595069" duration="2853000" />
+      <workItem from="1748348444318" duration="9445000" />
+      <workItem from="1748361598714" duration="40000" />
+      <workItem from="1748362725797" duration="3000" />
+      <workItem from="1748420758363" duration="11311000" />
+      <workItem from="1748439331020" duration="1384000" />
+      <workItem from="1748485069392" duration="1676000" />
+      <workItem from="1748499415932" duration="269000" />
+      <workItem from="1748595119935" duration="732000" />
+      <workItem from="1749893197077" duration="1440000" />
     </task>
     <task id="LOCAL-00001" summary="环境修复">
       <option name="closed" value="true" />
@@ -252,7 +281,23 @@
       <option name="project" value="LOCAL" />
       <updated>1748331162017</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="调整readme">
+      <option name="closed" value="true" />
+      <created>1750756159408</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1750756159408</updated>
+    </task>
+    <task id="LOCAL-00011" summary="调整readme">
+      <option name="closed" value="true" />
+      <created>1750756313386</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1750756313386</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -276,16 +321,18 @@
     <MESSAGE value="拆分模块的前端显示" />
     <MESSAGE value="综合修改，快完了" />
     <MESSAGE value="调整文件结构" />
-    <option name="LAST_COMMIT_MESSAGE" value="调整文件结构" />
+    <MESSAGE value="调整readme" />
+    <option name="LAST_COMMIT_MESSAGE" value="调整readme" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/ids$test.coverage" NAME="test Coverage Results" MODIFIED="1748283414291" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/app" />
     <SUITE FILE_PATH="coverage/ids$pcapFeature.coverage" NAME="pcapFeature Coverage Results" MODIFIED="1748267879243" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/app/modules/network_monitoring" />
     <SUITE FILE_PATH="coverage/ids$ThreatFind.coverage" NAME="ThreatFind Coverage Results" MODIFIED="1748274707923" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/app/modules/threat_find" />
+    <SUITE FILE_PATH="coverage/ids$FlowFeature.coverage" NAME="FlowFeature Coverage Results" MODIFIED="1748426035481" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/app/modules/threat_find/flow_feature" />
     <SUITE FILE_PATH="coverage/ids$detector.coverage" NAME="detector Coverage Results" MODIFIED="1748277979481" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/app/modules/pocket_detection" />
-    <SUITE FILE_PATH="coverage/ids$app.coverage" NAME="app Coverage Results" MODIFIED="1748342534889" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/app" />
+    <SUITE FILE_PATH="coverage/ids$app.coverage" NAME="app Coverage Results" MODIFIED="1749893423729" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/app" />
     <SUITE FILE_PATH="coverage/ids$monitor.coverage" NAME="monitor Coverage Results" MODIFIED="1748082275549" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/app/modules/network_monitoring" />
-    <SUITE FILE_PATH="coverage/ids$main.coverage" NAME="main Coverage Results" MODIFIED="1748188726056" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/app/modules/network_monitoring" />
+    <SUITE FILE_PATH="coverage/ids$main.coverage" NAME="main Coverage Results" MODIFIED="1748595137932" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/app" />
     <SUITE FILE_PATH="coverage/ids$PacketReader.coverage" NAME="PacketReader Coverage Results" MODIFIED="1748261813448" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/app/modules/network_monitoring" />
   </component>
 </project>

@@ -130,8 +130,8 @@
                                         <th>源端口</th>
                                         <th>目标端口</th>
                                         <th>协议</th>
-                                        <th>正向包/秒</th>
-                                        <th>反向包/秒</th>
+                                        <th>前向包个数</th>
+                                        <th>后向包个数</th>
                                         <th>正向负载字节</th>
                                         <th>反向负载字节</th>
                                         <th>持续时间(ms)</th>
@@ -143,8 +143,8 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td colspan="7" class="text-center text-muted">
-                                            <i class="fa fa-spin fa-spinner"></i> 加载流量数据...
+                                        <td colspan="12" class="text-center text-muted">
+                                            <i class="fa fa-spin fa-spinner"></i> 加载流量数据...（停止捕获后才可以得到流量数据）
                                         </td>
                                     </tr>
                                 </tbody>
@@ -240,6 +240,7 @@
                     showError('请输入文件路径');
                     return;
                 }
+
                 var postData = {
                     file_path: filePath
                 };
@@ -248,13 +249,16 @@
                     if (response.success) {
                         updateFlowFeatures(response.data);
                         is_analyze=true;
+                         $('#detectThreats').removeClass('btn-danger').addClass('btn-info');
+                        $('#detectThreats').html('<i class="fa fa-search"></i> 开始检测');
                     } else {
                         showError('文件分析失败: ' + response.message);
-                        is_analyze=false;
+                        //is_analyze=false;
                     }
                 });
+
                 function showError(message) {
-                    is_analyze=false;
+                    //is_analyze=false;
                     fileError.text(message).fadeIn();
                     setTimeout(() => fileError.fadeOut(), 3000);
                 }
@@ -345,21 +349,10 @@
                     updateSystemStatus(false);
                 });
                 socket.on('flow_feature', function(data) {
+                    console.log("接受特征数据");
                     updateFlowFeatures(data);                    
-                });
-                socket.on('network_stats', function(data) {
-                    updateDashboardStats(data);
-                });
-                // 处理威胁数据更新
-                socket.on('threat_update', function(data) {
-                    updateThreatList(data);
-                    updateAttackChart(data);
-                });
+                });               
                 
-                // 处理状态更新
-                socket.on('status_update', function(data) {
-                    updateSystemStatus(true, data.is_running);
-                });
             }
             
             // 获取最新数据
@@ -369,24 +362,17 @@
                     console.log("获取系统状态");
                     is_run=data.is_running;
                     updateSystemStatus(true, data.is_running);
-                });
+                });               
                 
-                // 获取网络统计数据
-                $.get('/api/network_stats', function(data) {
-                    updateDashboardStats(data);                    
-                });
-                if (is_run) {
+                if (!is_run) {
                     $.get('/api/flow_features', function (data) {
-                        updateFlowFeatures(data);
+                        if(Array.isArray(data.features) && data.features.length) {
+                            is_analyze=true
+                            updateFlowFeatures(data);
+                        }
                     });
                 }
-                // 获取威胁数据
-                $.get('/api/threats', function(data) {
-                    if (data.threats) {
-                        updateThreatList(data.threats);
-                        updateAttackChart({ attack_stats: countAttackTypes(data.threats) });
-                    }
-                });
+
             }
             
             // 获取初始数据
@@ -394,7 +380,7 @@
                 fetchData();
                 
                 // 设置定时刷新 (每10秒刷新一次)
-                setInterval(fetchData, 10000);
+                //setInterval(fetchData, 10000);
             }
             
           
@@ -425,54 +411,13 @@
                 }
             }
             
-            // 更新仪表盘统计数据
-            function updateDashboardStats(data) {
-                if (!data) return;
-
-                // 流量统计
-                if (data.traffic_in !== undefined && data.traffic_out !== undefined) {
-                    const inTraffic = formatBytes(data.traffic_in) + '/s';
-                    const outTraffic = formatBytes(data.traffic_out) + '/s';
-                    $('#trafficStat').text(inTraffic + ' / ' + outTraffic);
-                }
-                
-                // 活跃连接数
-                if (data.connections !== undefined) {
-                    $('#connectionsStat').text(data.connections);
-                }
-                
-                // 检测到的威胁数
-                if (data.threats_detected !== undefined) {
-                    $('#threatsStat').text(data.threats_detected);
-                }
-                
-                
-                // 处理的数据包数
-                if (data.packets_processed !== undefined) {
-                    $('#processedPackets').text(data.packets_processed);
-                }
-                
-                // 如果没有提供这些数据，则模拟一些数据
-                // if (data.connections === undefined) {
-                //     $('#connectionsStat').text(Math.floor(Math.random() * 50) + 10);
-                // }
-                // if (data.threats_detected === undefined) {
-                //     $('#threatsStat').text(Math.floor(Math.random() * 20));
-                // }
-                // if (data.ips_blocked === undefined) {
-                //     $('#blockedIpsStat').text(Math.floor(Math.random() * 10));
-                // }
-                // if (data.packets_processed === undefined) {
-                //     $('#processedPackets').text(Math.floor(Math.random() * 5000) + 1000);
-                // }
-            }
             
            function updateFlowFeatures(data) {
-
-                console.log(data);
-                if (!data) return;
+                //console.log("更新流量特征");
+                //console.log(data);
+                if (!data.features) return;
                     // 流量统计
-               console.log("更新流量特征");
+
                 const $flowfeatureBody = $('#flowfeature tbody');
 
                 // 清空现有内容
@@ -492,8 +437,8 @@
                             <td>${feature['Src Port']}</td>
                             <td>${feature['Dst Port']}</td>
                             <td>${feature['Protocol']}</td>
-                            <td>${feature['Fwd Pkts/s']}</td>
-                            <td>${feature['Bwd Pkts/s']}</td>
+                            <td>${feature['Fwd Pkts']}</td>
+                            <td>${feature['Bwd Pkts']}</td>
                             <td>${feature['Total Length of Fwd Packets']}</td>
                             <td>${feature['Total Length of Bwd Packets']}</td>
                             <td>${feature['Flow Duration(ms)']}</td>
@@ -558,7 +503,7 @@
                             </span>
                         </div>
                         <div class="mt-1">
-                            <small>来源: ${threat.src_ip || '未知'} → ${threat.dst_ip || '未知'}</small>
+                            <small>来源: ${threat.src_ip || '未知'}:${threat.src_port || '?'} → ${threat.dst_ip || '未知'}:${threat.dst_port || '?'}</small>
                         </div>
                     </div>`;
                 });

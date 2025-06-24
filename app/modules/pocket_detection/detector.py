@@ -244,7 +244,7 @@ class TrafficDetector:
                     })
                     logger.info(f"成功保存 {filename} ({len(packets)} 个数据包)")
 
-            self._saved_pcap_files.append(saved_files[filename])
+                self._saved_pcap_files.append(filename)
 
             return {
                 "total_packets": len(target_data),

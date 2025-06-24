@@ -1,125 +1,172 @@
-# 网络入侵检测与防御系统
+## 项目概述
 
-这是一个基于Python的网络入侵检测与防御系统，提供实时流量分析、攻击检测、自动防御和可视化监控功能。
+### 背景
 
-## 功能特点
+网络入侵检测是网络安全的核心技术，用于检测恶意行为如未授权访问、恶意软件攻击和拒绝服务攻击。本系统采用随机森林模型进行入侵检测。
 
-- **流量检测**：实时捕获和分析网络流量，识别可疑活动和异常行为
-- **入侵防御**：检测并拦截恶意流量，保护网络免受攻击和未授权访问
-- **告警响应**：针对检测到的威胁生成警报，并执行自动响应措施
-- **网络监控**：可视化网络状态与攻击统计，为安全分析提供实时数据
-- **友好界面**：直观的Web界面，提供流量统计、攻击日志和系统设置
+### 核心功能
 
-## 系统架构
-
-系统由以下几个核心模块组成：
-
-1. **流量检测模块**：负责捕获和分析网络流量，识别可疑活动
-2. **入侵防御模块**：根据检测结果执行防御措施，如阻止恶意IP
-3. **告警响应模块**：管理和发送告警通知，记录安全事件
-4. **网络监控模块**：收集网络统计数据，提供可视化界面
-5. **Web界面**：用户交互界面，展示系统状态和控制系统功能
+1.  实时数据包抓取与协议分析
+    
+2.  流量特征提取（从pcap文件）
+    
+3.  基于随机森林模型的威胁检测
+    1.  模型训练代码也在其中
+    
+4.  可视化分析界面
+    
 
 ## 技术栈
 
-- **后端**：Python, Flask, Flask-SocketIO, Scapy
-- **前端**：HTML5, CSS3, JavaScript, Bootstrap, Chart.js
-- **数据库**：MongoDB（用于存储日志和配置）
-- **容器化**：Docker, Docker Compose
+### 前端
 
-## 快速开始
+*   Bootstrap 5 (界面框架)
+    
+*   jQuery (DOM操作)
+    
+*   Plotly v5.3.1 (数据可视化)
+    
 
-编程人员，运行前激活环境
+### 后端
 
-### 先决条件
+*   Flask v2.2.5 (核心Web框架)
+    
+*   Pywebview (桌面应用转换)
+    
+*   Pyinstaller (打包)
+    
 
-- Python 3.9+
-- Docker 和 Docker Compose（可选，用于容器化部署）
-- 网络接口访问权限（需要root/管理员权限）
+### 数据处理
 
-### 安装方法
+*   pandas v2.2.3 (数据操作)
+    
+*   numpy v2.2.6 (数值计算)
+    
+*   Scikit-learn 1.6.1 (特征预处理和降维)
+    
 
-1. 克隆仓库：
+### 其他
 
+*   scapy v2.4.5 (数据包操作)
+    
+*   Joblib (模型持久化)
+    
+*   RandomForestClassifier (威胁检测模型)
+    
+
+## 安装部署
+
+
+# 必需组件
+下载npcap: https://npcap.com/#download
+
+# 运行方式
+1. 直接运行: 双击ids.exe
+2. 源码运行:   
+   - 安装依赖: 
 ```bash
-git clone https://github.com/yourusername/intrusion_detection_system.git
-cd intrusion_detection_system
+pip install \-r requirements.txt
+# 激活虚拟环境: 
+venv\\Scripts\\activate
+
+3. 运行: 
+```bash
+   python app.py #(浏览器模式) 或
+   python main.py # (桌面模式)
+```
+4. 打包:
+```bash
+pyinstaller main.spec
 ```
 
-2. 安装依赖：
+## 系统架构
 
-```bash
-pip install -r requirements.txt
+```unix
+IDS/
+├── app/                          # 主应用模块
+│   ├── app.py                    # Flask入口
+│   ├── main.py                   # 桌面程序入口
+│   ├── model/                    # 机器学习模型
+│   ├── modules/                  # 功能模块
+│   │   ├── pocket\_detection/     # 数据包捕获
+│   │   └── threat\_find/          # 威胁检测
+│   ├── templates/                # 前端页面
+│   └── 测试用例/                 # 测试数据
+├── data/                         # 运行时数据
+├── requirements.txt              # 依赖库
+└── venv/                         # 虚拟环境
 ```
+## 核心模块设计
 
-3. 运行系统：
+### 1\. 数据包抓取与分析
 
-```bash
-cd app
-python app.py
-```
+*   实时监听网络端口
+    
+*   协议分析（IP/TCP/UDP/ICMP/HTTP）
+    
+*   数据可视化（协议分布饼图）
+    
+*   数据包存储（JSON和PCAP格式）
+    
 
-### 使用Docker部署
 
-1. 构建和启动容器：
+### 2\. 流量特征提取
 
-```bash
-docker-compose -f docker/docker-compose.yml up -d
-```
+提取86维网络流量特征，包括：
 
-2. 访问系统：
+*   流基本信息（IP/端口/协议）
+    
+*   数据包统计特征
+    
+*   流速相关特征
+    
+*   TCP标志特征
+    
+*   流活动特征
+    
 
-打开浏览器，访问 `http://localhost:5000`
+### 3\. 威胁检测模型
 
-## 配置指南
+*   数据集：CIC-IDS2017 (1.13GB网络流量数据:https://www.unb.ca/cic/datasets/ids-2017.html)
+    
+*   预处理：标准化+欠采样+PCA降维
+    
+*   模型：网格搜索优化的随机森林
+    
+*   检测类型：12类威胁（包括DDoS、PortScan等）
 
-系统提供了多种配置选项，可通过Web界面或配置文件进行修改：
+*   准确率：92.7%（测试数据集）
+    
 
-- **常规设置**：系统名称、网络接口、日志保留时间等
-- **检测设置**：检测模式、数据包采样率、深度数据包检测等
-- **防御设置**：防御模式、IP阻止持续时间、阻止阈值等
-- **告警设置**：Web通知、邮件通知、最低告警级别等
-- **网络设置**：管理界面端口、监控网络范围、SSL/TLS等
+## 使用说明
 
-## 系统截图
+### 网络监控
 
-![仪表盘](docs/images/dashboard.png)
-*系统仪表盘，显示实时流量和威胁检测*
+1.  查看实时协议分布
+    
+2.  检查捕获的数据包
+    
+3.  使用筛选器（IP/端口）
+    
+4.  分析单个数据包（协议详情+十六进制视图）
+    
 
-![日志页面](docs/images/logs.png)
-*攻击日志和系统事件记录*
+### 威胁检测
 
-![设置页面](docs/images/settings.png)
-*系统配置和管理*
+1.  **文件分析模式**：
+    
+    *   上传PCAP或CSV文件
+        
+    *   提取流量特征
+        
+    *   执行威胁检测
+        
+2.  **实时检测模式**：
+    
+    *   启动网络扫描
+        
+    *   停止扫描后自动分析
+        
+    *   查看威胁分类结果
+        
 
-## 注意事项
-
-- 系统需要网络接口访问权限，建议以管理员权限运行
-- 在生产环境中使用前，请确保已正确配置安全设置
-- 系统设计用于教育和研究目的，请遵守相关法律法规
-- 默认情况下，系统使用模拟模式运行防御功能，如需激活实际防御，需要根据实际环境配置
-
-## 贡献指南
-
-欢迎贡献代码、报告问题或提出改进建议。请通过以下方式参与：
-
-1. Fork 项目
-2. 创建特性分支 (`git checkout -b feature/amazing-feature`)
-3. 提交更改 (`git commit -m 'Add some amazing feature'`)
-4. 推送到分支 (`git push origin feature/amazing-feature`)
-5. 创建 Pull Request
-
-## 许可证
-
-本项目采用 MIT 许可证 - 详见 [LICENSE](LICENSE) 文件
-
-## 联系方式
-
-如有任何问题或建议，请通过以下方式联系我：
-
-- 电子邮件：your.email@example.com
-- 项目Issues：[GitHub Issues](https://github.com/yourusername/intrusion_detection_system/issues)
-
----
-
-**免责声明**：本系统仅供教育和研究目的使用。作者不对系统的使用或滥用导致的任何损失或损害负责。使用者应自行承担使用风险，并确保遵守相关法律法规。
