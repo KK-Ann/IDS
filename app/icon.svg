@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <!-- 盾牌底座 (检测保护) -->
+  <path d="M32 2.5L2.5 20v24c0 10 12.5 17.5 29.5 17.5s29.5-7.5 29.5-17.5V20L32 2.5z" 
+        fill="#2c3e50" stroke="#3498db" stroke-width="1.5"/>
+  
+  <!-- 随机森林模型 -->
+  <g fill="#27ae60">
+    <!-- 中心决策树 -->
+    <path d="M32 25v-6M29 28l3-8 3 8zM32 36l-5-5h10z"/>
+    <circle cx="32" cy="42" r="2"/>
+    
+    <!-- 左侧子树 -->
+    <path d="M18 30v-4M16 33l2-6 2 6zM18 38l-3-4h6z"/>
+    <circle cx="18" cy="43" r="1.5"/>
+    
+    <!-- 右侧子树 -->
+    <path d="M46 28v-5M44 32l2-7 2 7zM46 40l-4-5h8z"/>
+    <circle cx="46" cy="45" r="1.5"/>
+  </g>
+  
+  <!-- 网络数据流 (抓包波形) -->
+  <g stroke="#3498db" stroke-width="2" stroke-linecap="round" fill="none">
+    <path d="M8 52q4-4 8 0t8-4 8 2 8-6 8 4 8-2" opacity="0.8"/>
+    <path d="M5 56q5-3 10 1t10-5 10 3 10-7 10 5 9-3" opacity="0.6"/>
+  </g>
+  
+  <!-- 二进制数据流 (像素化处理) -->
+  <g fill="#e74c3c" opacity="0.7">
+    <rect x="20" y="15" width="2" height="2"/>
+    <rect x="25" y="12" width="2" height="2"/>
+    <rect x="40" y="18" width="2" height="2"/>
+    <rect x="50" y="15" width="2" height="2"/>
+    <rect x="15" y="22" width="2" height="2"/>
+  </g>
+  
+  <!-- AI核心 (脉冲效果) -->
+  <g stroke="#f1c40f" fill="none" stroke-width="1.5">
+    <circle cx="32" cy="32" r="4" fill="#f39c12"/>
+    <circle cx="32" cy="32" r="7" opacity="0.4"/>
+    <circle cx="32" cy="32" r="10" opacity="0.2"/>
+  </g>
+</svg>
